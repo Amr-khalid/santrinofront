@@ -6,21 +6,22 @@ export default function Card({
   variant = 'default', // default | muted
   padding = 'md', // sm | md | lg | none
   className = '',
+  style = {},
   ...props
 }) {
-  const paddingStyle =
+  const paddingClass =
     padding === 'none'
-      ? { padding: 0 }
+      ? 'card-padding-none'
       : padding === 'sm'
-      ? { padding: 'var(--space-3)' }
+      ? 'card-padding-sm'
       : padding === 'lg'
-      ? { padding: 'var(--space-6)' }
-      : {};
+      ? 'card-padding-lg'
+      : 'card-padding-md';
 
   return (
     <div
-      className={`card ${variant === 'muted' ? 'card-muted' : ''} ${interactive ? 'card-interactive' : ''} ${className}`}
-      style={paddingStyle}
+      className={`card ${paddingClass} ${variant === 'muted' ? 'card-muted' : ''} ${interactive ? 'card-interactive' : ''} ${className}`}
+      style={style}
       {...props}
     >
       {children}

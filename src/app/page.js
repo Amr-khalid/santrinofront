@@ -138,7 +138,7 @@ export default function HomePage() {
   const sortedSelected = [...selectedSlots].sort((a, b) => a.startTime.localeCompare(b.startTime));
 
   return (
-    <div style={{ paddingTop: 'var(--space-6)', paddingBottom: 'var(--space-12)' }}>
+    <div className="homepage-wrapper">
       <div className="container" style={{ maxWidth: '980px' }}>
         {/* Collapsible 3 Step Guide Card */}
         <div style={{ marginBottom: 'var(--space-4)' }}>

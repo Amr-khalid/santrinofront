@@ -18,7 +18,7 @@ export default function Footer() {
       style={{
         background: 'var(--bg-surface)',
         borderTop: '1px solid var(--border-subtle)',
-        marginTop: '250px',
+        marginTop: 'var(--space-8)',
         color: 'var(--text-secondary)',
         position: 'relative',
       }}

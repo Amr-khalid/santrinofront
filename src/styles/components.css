@@ -136,6 +136,11 @@
   border-color: var(--border-subtle);
 }
 
+.card-padding-none { padding: 0 !important; }
+.card-padding-sm { padding: var(--space-3); }
+.card-padding-md { padding: var(--space-5); }
+.card-padding-lg { padding: var(--space-6); }
+
 /* ==========================================================================
    3. Form Inputs & Groups (44px height, clear labels & errors)
    ========================================================================== */
@@ -758,6 +763,108 @@ option {
 
   .sheet-handle {
     display: block;
+  }
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 10px 8px;
+    border-radius: var(--radius-sm);
+  }
+
+  .period-container {
+    padding: 8px 6px;
+    margin-bottom: 8px;
+    border-radius: var(--radius-sm);
+  }
+
+  .period-title {
+    font-size: 0.8125rem;
+  }
+
+  .period-timespan-badge {
+    font-size: 0.6875rem;
+    padding: 1px 5px;
+  }
+
+  .slot-card {
+    padding: 6px 8px;
+    min-height: 52px;
+    gap: 4px;
+    border-radius: var(--radius-sm);
+  }
+
+  .slot-time {
+    font-size: 0.75rem;
+    gap: 3px;
+  }
+
+  .slot-price {
+    font-size: 0.8125rem;
+  }
+
+  .slot-status-tag {
+    font-size: 0.625rem;
+    padding: 1px 4px;
+  }
+}
+
+/* Responsive Slot Grid */
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: var(--space-3);
+}
+
+@media (max-width: 640px) {
+  .slots-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 6px;
+  }
+}
+
+/* Responsive Calendar Matrix */
+.calendar-matrix {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: var(--space-1);
+}
+
+.calendar-day-btn {
+  min-height: 44px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9375rem;
+  font-family: 'Inter', sans-serif;
+  transition: var(--transition-fast);
+}
+
+@media (max-width: 480px) {
+  .calendar-matrix {
+    gap: 2px;
+  }
+
+  .calendar-day-btn {
+    min-height: 34px;
+    font-size: 0.8125rem;
+    border-radius: var(--radius-xs);
+  }
+}
+
+/* Homepage responsive wrapper */
+.homepage-wrapper {
+  padding-top: var(--space-6);
+  padding-bottom: var(--space-10);
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .homepage-wrapper {
+    padding-top: var(--space-2);
+    padding-bottom: var(--space-6);
   }
 }
 

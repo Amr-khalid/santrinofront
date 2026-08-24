@@ -214,16 +214,10 @@ export default function DatePicker({ selectedDate, onSelectDate }) {
           </div>
 
           {/* Month Days Matrix */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(7, 1fr)',
-              gap: 'var(--space-1)',
-            }}
-          >
+          <div className="calendar-matrix">
             {daysArray.map((dItem, idx) => {
               if (!dItem) {
-                return <div key={`empty-${idx}`} style={{ minHeight: '44px' }} />;
+                return <div key={`empty-${idx}`} className="calendar-day-btn" style={{ background: 'transparent', border: 'none', cursor: 'default' }} />;
               }
 
               return (
@@ -236,9 +230,8 @@ export default function DatePicker({ selectedDate, onSelectDate }) {
                     }
                   }}
                   disabled={dItem.isPast}
+                  className="calendar-day-btn"
                   style={{
-                    minHeight: '44px',
-                    borderRadius: 'var(--radius-sm)',
                     background: dItem.isSelected
                       ? 'var(--primary)'
                       : dItem.isToday
@@ -254,16 +247,9 @@ export default function DatePicker({ selectedDate, onSelectDate }) {
                       : dItem.isPast
                       ? 'var(--text-muted)'
                       : 'var(--text-primary)',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '0.9375rem',
                     fontWeight: dItem.isSelected || dItem.isToday ? 700 : 500,
-                    fontFamily: 'Inter, sans-serif',
                     cursor: dItem.isPast ? 'not-allowed' : 'pointer',
                     opacity: dItem.isPast ? 0.35 : 1,
-                    transition: 'var(--transition-fast)',
                     boxShadow: dItem.isSelected
                       ? '0 0 14px rgba(16, 185, 129, 0.4)'
                       : 'none',

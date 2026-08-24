@@ -15,10 +15,10 @@ html {
   color: var(--text-primary);
   direction: rtl;
   text-align: right;
-  scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
+  -webkit-overflow-scrolling: touch;
 }
 
 body {
@@ -28,12 +28,19 @@ body {
   background-size: cover;
   background-position: center top;
   background-repeat: no-repeat;
-  background-attachment: fixed;
+  background-attachment: scroll;
   color: var(--text-primary);
   overflow-x: hidden;
   line-height: 1.5;
   font-size: 0.9375rem; /* 15px base */
   transition: background-image 0.4s ease, background-color 0.3s ease, color 0.3s ease;
+  touch-action: pan-y;
+}
+
+@media (min-width: 769px) {
+  body {
+    background-attachment: fixed;
+  }
 }
 
 
@@ -149,7 +156,13 @@ input, select, textarea {
   width: 100%;
   max-width: 1140px;
   margin: 0 auto;
-  padding: 0 var(--space-4);
+  padding: 0 4px;
+}
+
+@media (min-width: 480px) {
+  .container {
+    padding: 0 var(--space-3);
+  }
 }
 
 @media (min-width: 768px) {

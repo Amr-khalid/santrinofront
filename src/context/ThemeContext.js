@@ -3,12 +3,12 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const ThemeContext = createContext({
-  theme: 'dark',
+  theme: 'light',
   toggleTheme: () => {},
 });
 
 export function ThemeProvider({ children }) {
-  const [theme, setTheme] = useState('dark');
+  const [theme, setTheme] = useState('light');
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -18,15 +18,15 @@ export function ThemeProvider({ children }) {
       document.documentElement.setAttribute('data-theme', savedTheme);
       document.body.setAttribute('data-theme', savedTheme);
     } else {
-      // Default to dark
-      document.documentElement.setAttribute('data-theme', 'dark');
-      document.body.setAttribute('data-theme', 'dark');
+      // Default to light
+      document.documentElement.setAttribute('data-theme', 'light');
+      document.body.setAttribute('data-theme', 'light');
     }
     setMounted(true);
   }, []);
 
   const toggleTheme = () => {
-    const nextTheme = theme === 'dark' ? 'light' : 'dark';
+    const nextTheme = theme === 'light' ? 'dark' : 'light';
     setTheme(nextTheme);
     localStorage.setItem('santrino_theme', nextTheme);
     document.documentElement.setAttribute('data-theme', nextTheme);

@@ -220,13 +220,7 @@ export default function TimeSlotGrid({
               </div>
 
               {/* Slots Grid */}
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(auto-fill, minmax(175px, 1fr))',
-                  gap: 'var(--space-3)',
-                }}
-              >
+              <div className="slots-grid">
                 {periodSlots.map((slot) => {
                   const isBooked = !slot.isAvailable;
                   const isSelected = selectedStartTimes.has(slot.startTime);
