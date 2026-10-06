@@ -2,11 +2,12 @@
 
 import React from 'react';
 import { formatCurrency, getStatusInfo, getPaymentStatusInfo, formatSlotRange12h } from '@/lib/utils';
+import { getActivityMeta } from '@/lib/activities';
 import Badge from '@/components/ui/Badge';
-import { Check, X, User, Globe, PenTool, Layers } from 'lucide-react';
+import { Check, X, User, Globe, PenTool, Layers, Users } from 'lucide-react';
 
 /**
- * Group consecutive booking slots by the same player on the same date & field
+ * Group consecutive booking slots by the same player on the same date & facility
  */
 function groupConsecutiveBookings(rawBookings) {
   if (!rawBookings || rawBookings.length === 0) return [];
@@ -34,11 +35,12 @@ function groupConsecutiveBookings(rawBookings) {
 
     const isSamePlayer = last.playerPhone === item.playerPhone;
     const isSameDate = last.dateString === item.dateString;
+    const isSameFacility = (last.facility?._id || last.facility) === (item.facility?._id || item.facility);
     const isSameStatus = last.status === item.status;
     const isSamePaymentStatus = last.paymentStatus === item.paymentStatus;
     const isConsecutiveTime = last.endTime === item.startTime;
 
-    if (isSamePlayer && isSameDate && isSameStatus && isSamePaymentStatus && isConsecutiveTime) {
+    if (isSamePlayer && isSameDate && isSameFacility && isSameStatus && isSamePaymentStatus && isConsecutiveTime) {
       last.endTime = item.endTime;
       last.totalPrice += item.price;
       last.slotsCount += 1;
@@ -83,6 +85,7 @@ export default function BookingTable({ bookings = [], onUpdateStatus, loading })
         <thead>
           <tr>
             <th>اللاعب / الهاتف</th>
+            <th>النشاط والمنشأة</th>
             <th>التاريخ والمدة</th>
             <th>السعر الإجمالي</th>
             <th>حالة الحجز</th>
@@ -97,6 +100,9 @@ export default function BookingTable({ bookings = [], onUpdateStatus, loading })
             const paymentInfo = getPaymentStatusInfo(booking.paymentStatus);
             const isManual = booking.bookingSource === 'dashboard_manual';
             const actionIds = booking.ids || [booking._id];
+            const actMeta = getActivityMeta(booking.activityType || booking.facility?.activityType);
+            const facName = booking.facility?.name || booking.field?.name || 'الملعب الرئيسي';
+            const isSession = booking.bookingType === 'session';
 
             return (
               <tr key={booking.ids ? booking.ids.join('-') : booking._id}>
@@ -127,6 +133,22 @@ export default function BookingTable({ bookings = [], onUpdateStatus, loading })
                     </div>
                   </div>
                 </td>
+
+                {/* Activity & Facility */}
+                <td>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                    <span style={{ fontSize: '1.1rem' }}>{actMeta.icon}</span>
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
+                        {facName}
+                      </div>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                        {actMeta.name} {isSession && booking.participantsCount ? `(${booking.participantsCount} أفراد)` : ''}
+                      </span>
+                    </div>
+                  </div>
+                </td>
+
                 <td>
                   <div style={{ fontWeight: 500, fontSize: '0.875rem' }}>{booking.dateString}</div>
                   <div className="flex items-center gap-1" style={{ marginTop: '2px' }}>
@@ -140,17 +162,23 @@ export default function BookingTable({ bookings = [], onUpdateStatus, loading })
                     )}
                   </div>
                 </td>
-                <td style={{ fontWeight: 700, fontFamily: 'Inter, sans-serif' }}>{formatCurrency(booking.totalPrice || booking.price)}</td>
+
+                <td style={{ fontWeight: 700, fontFamily: 'Inter, sans-serif' }}>
+                  {formatCurrency(booking.totalPrice || booking.price)}
+                </td>
+
                 <td>
                   <Badge variant={statusInfo.colorClass.replace('badge-', '')}>
                     {statusInfo.label}
                   </Badge>
                 </td>
+
                 <td>
                   <Badge variant={paymentInfo.colorClass.replace('badge-', '')}>
                     {paymentInfo.label}
                   </Badge>
                 </td>
+
                 <td>
                   <span
                     className="flex items-center gap-1"
@@ -160,6 +188,7 @@ export default function BookingTable({ bookings = [], onUpdateStatus, loading })
                     {isManual ? 'يدوي' : 'أونلاين'}
                   </span>
                 </td>
+
                 <td>
                   <div className="flex items-center gap-1">
                     {booking.status === 'pending_confirmation' && (
@@ -182,6 +211,7 @@ export default function BookingTable({ bookings = [], onUpdateStatus, loading })
                         </button>
                       </>
                     )}
+
                     {booking.status === 'confirmed' && (
                       <>
                         <button
@@ -202,11 +232,13 @@ export default function BookingTable({ bookings = [], onUpdateStatus, loading })
                         </button>
                       </>
                     )}
+
                     {(booking.status === 'cancelled' || booking.status === 'auto_expired') && (
                       <span style={{ fontSize: '0.75rem', color: 'var(--danger)', fontWeight: 600 }}>
                         {booking.status === 'auto_expired' ? 'منتهية المهلة' : 'ملغي'}
                       </span>
                     )}
+
                     {booking.status === 'completed' && (
                       <span className="flex items-center gap-1" style={{ fontSize: '0.75rem', color: 'var(--primary)', fontWeight: 600 }}>
                         <Check size={13} /> اكتمل
@@ -222,5 +254,3 @@ export default function BookingTable({ bookings = [], onUpdateStatus, loading })
     </div>
   );
 }
-
-

@@ -7,8 +7,9 @@ import Footer from '@/components/layout/Footer';
 import ImpersonationBanner from '@/components/layout/ImpersonationBanner';
 
 export const metadata = {
-  title: 'سنترينو — النظام الذكي لحجز ملاعب كرة القدم',
-  description: 'احجز ملعبك المفضل في ثوانٍ بدون مكالمات أو انتظار، مع جداول مواعيد لحظية وأسعار شفافة.',
+  title: 'سنترينو أرينا — Santrino Sports | منصة حجز الملاعب والأنشطة الرياضية',
+  description:
+    'اكتشف واحجز ملاعب البادل، كرة القدم، التنس، وحصص السباحة وصالات اللياقة البدنية في ثوانٍ بأسعار شفافة ودفع كاش في الملعب وبدون أي تعارض في المواعيد.',
 };
 
 export default function RootLayout({ children }) {
@@ -18,6 +19,10 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Marhey:wght@400;600;700&family=Readex+Pro:wght@400;500;600;700;800&family=Inter:wght@400;600;700;800&display=swap"
+          rel="stylesheet"
+        />
       </head>
 
       <body>

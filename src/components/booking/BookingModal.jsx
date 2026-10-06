@@ -6,10 +6,11 @@ import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 import { Input, Textarea } from '@/components/ui/Input';
 import { formatCurrency, formatDateArabic, formatSlotRange12h } from '@/lib/utils';
+import { getActivityMeta } from '@/lib/activities';
 import { useAuth } from '@/context/AuthContext';
 import { apiRequest } from '@/lib/api';
 import { useToast } from '@/context/ToastContext';
-import { Calendar, Clock, MapPin, CheckCircle, Info } from 'lucide-react';
+import { Calendar, Clock, MapPin, CheckCircle, Info, Users, Plus, Minus } from 'lucide-react';
 
 export default function BookingModal({
   isOpen,
@@ -17,7 +18,9 @@ export default function BookingModal({
   slots = [],
   slot = null,
   dateString,
-  field,
+  facility = null,
+  field = null,
+  venue = null,
   onSuccess,
 }) {
   const router = useRouter();
@@ -26,9 +29,14 @@ export default function BookingModal({
 
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
+  const [participantsCount, setParticipantsCount] = useState(1);
   const [notes, setNotes] = useState('');
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+
+  const targetFacility = facility || field;
+  const isSession = targetFacility?.bookingType === 'session';
+  const maxCapacity = targetFacility?.capacity || 20;
 
   const activeSlots = Array.isArray(slots) && slots.length > 0
     ? slots
@@ -38,7 +46,7 @@ export default function BookingModal({
 
   useEffect(() => {
     if (isOpen && !user) {
-      showToast('يرجى تسجيل الدخول أو إنشاء حساب أولاً لإكمال حجز الملعب', 'warning');
+      showToast('لازم تسجّل دخولك أو تعمل حساب الأول عشان تكمّل الحجز', 'warning');
       router.push('/auth/login');
       onClose();
       return;
@@ -51,8 +59,12 @@ export default function BookingModal({
 
   if (!isOpen || activeSlots.length === 0) return null;
 
-  const totalPrice = activeSlots.reduce((sum, s) => sum + (s.price || 0), 0);
+  const basePrice = activeSlots.reduce((sum, s) => sum + (s.price || 0), 0);
+  const totalPrice = isSession ? basePrice * participantsCount : basePrice;
   const sortedSlots = [...activeSlots].sort((a, b) => a.startTime.localeCompare(b.startTime));
+
+  const activityMeta = getActivityMeta(targetFacility?.activityType);
+  const venueTitle = venue?.name || targetFacility?.venue?.name || targetFacility?.name || 'الملعب';
 
   const validateBookingForm = () => {
     const errs = {};
@@ -60,13 +72,13 @@ export default function BookingModal({
     const cleanPhone = phone.trim().replace(/[\s\-\+]/g, '');
 
     if (!trimmedName) {
-      errs.name = 'يرجى كتابة الاسم بالكامل';
+      errs.name = 'اكتب اسمك بالكامل يا بطل';
     }
 
     if (!cleanPhone) {
-      errs.phone = 'يرجى كتابة رقم الهاتف';
+      errs.phone = 'اكتب رقم الموبايل عشان نتواصل معاك';
     } else if (cleanPhone.length < 10) {
-      errs.phone = 'رقم الهاتف قصير جداً (11 رقم)';
+      errs.phone = 'رقم الموبايل ناقص (لازم 11 رقم)';
     }
 
     setErrors(errs);
@@ -82,7 +94,8 @@ export default function BookingModal({
     try {
       const cleanPhone = phone.trim().replace(/[\s\-\+]/g, '');
       const payload = {
-        fieldId: field?._id || field?.id,
+        facilityId: targetFacility?._id || targetFacility?.id,
+        fieldId: targetFacility?._id || targetFacility?.id,
         dateString,
         slots: sortedSlots.map((s) => ({
           startTime: s.startTime,
@@ -90,6 +103,8 @@ export default function BookingModal({
         })),
         playerName: name.trim(),
         playerPhone: cleanPhone,
+        participantsCount: isSession ? participantsCount : 1,
+        bookingType: isSession ? 'session' : 'time_slot',
         notes: notes.trim(),
       };
 
@@ -98,155 +113,178 @@ export default function BookingModal({
         body: JSON.stringify(payload),
       });
 
-      if (res.success || res.data) {
-        showToast('تم تأكيد حجزك بنجاح', 'success');
+      if (res.success) {
+        showToast(res.message || 'حجزك اتأكد خلاص! يلا استعد للماتش 🚀', 'success');
         if (onSuccess) {
-          onSuccess(res.data?.booking || res.data?.mainBooking || res.data);
+          onSuccess(res.data?.booking || res.data);
         }
         onClose();
-      } else {
-        showToast(res.message || 'حدث خطأ أثناء تنفيذ الحجز', 'error');
       }
     } catch (err) {
-      showToast(err.message || 'فشل الحجز، يرجى المحاولة مرة أخرى', 'error');
+      showToast(err.message || 'حصلت مشكلة في الحجز، جرب تاني', 'error');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <Modal
-      isOpen={isOpen}
-      onClose={onClose}
-      title={activeSlots.length > 1 ? `تأكيد حجز (${activeSlots.length} ساعات)` : 'تأكيد حجز الموعد'}
-    >
-      {/* Booking Summary Ticket Box */}
-      <div
-        style={{
-          background: 'var(--bg-surface-raised)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-md)',
-          padding: 'var(--space-4)',
-          marginBottom: 'var(--space-4)',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: 'var(--space-2)',
-          fontSize: '0.875rem',
-        }}
-      >
-        <div className="flex justify-between items-center">
-          <span style={{ color: 'var(--text-secondary)' }}>التاريخ:</span>
-          <span style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{formatDateArabic(dateString)}</span>
-        </div>
+    <Modal isOpen={isOpen} onClose={onClose} title="تأكيد حجز الميعاد" maxWidth="540px">
+      <form onSubmit={handleBookingSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+        {/* Reservation Summary Card */}
+        <div
+          style={{
+            background: 'var(--bg-surface-raised)',
+            padding: 'var(--space-4)',
+            borderRadius: 'var(--radius-md)',
+            border: '1px solid var(--border-subtle)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: 'var(--space-3)' }}>
+            <span style={{ fontSize: '1.25rem' }}>{activityMeta.icon}</span>
+            <div>
+              <h4 style={{ margin: 0, fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+                {venueTitle}
+              </h4>
+              <span style={{ fontSize: '0.8125rem', color: 'var(--primary)', fontWeight: 600 }}>
+                {targetFacility?.name}
+              </span>
+            </div>
+          </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-1)', marginTop: 'var(--space-1)' }}>
-          <span style={{ color: 'var(--text-secondary)', fontSize: '0.8125rem', marginBottom: '2px' }}>
-            الفترات المحجوزة:
-          </span>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            {sortedSlots.map((s, idx) => (
-              <div
-                key={idx}
-                style={{
-                  display: 'flex',
-                  justifyContent: 'space-between',
-                  alignItems: 'center',
-                  background: 'var(--bg-surface)',
-                  padding: '6px 10px',
-                  borderRadius: 'var(--radius-sm)',
-                  border: '1px solid var(--border-subtle)',
-                }}
-              >
-                <div className="flex items-center gap-1.5" style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: '0.875rem' }}>
-                  <Clock size={13} style={{ color: 'var(--primary)' }} />
-                  <span>{formatSlotRange12h(s.startTime, s.endTime)}</span>
-                </div>
-                <span style={{ fontWeight: 800, color: 'var(--primary)', fontFamily: 'Inter, sans-serif', fontSize: '0.9375rem' }}>
-                  {formatCurrency(s.price)}
-                </span>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-2)', fontSize: '0.875rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)' }}>
+              <Calendar size={15} style={{ color: 'var(--primary)' }} />
+              <span>{formatDateArabic(dateString)}</span>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', color: 'var(--text-secondary)' }}>
+              <Clock size={15} style={{ color: 'var(--primary)' }} />
+              <span>
+                {formatSlotRange12h(sortedSlots[0]?.startTime, sortedSlots[sortedSlots.length - 1]?.endTime)}
+              </span>
+            </div>
+          </div>
+
+          {/* If Session Based: Participant Counter */}
+          {isSession && (
+            <div
+              style={{
+                marginTop: 'var(--space-3)',
+                paddingTop: 'var(--space-3)',
+                borderTop: '1px solid var(--border-subtle)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.875rem' }}>
+                <Users size={16} style={{ color: 'var(--primary)' }} />
+                <span>عدد الأفراد اللي جايين معاك:</span>
               </div>
-            ))}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <button
+                  type="button"
+                  onClick={() => setParticipantsCount((prev) => Math.max(1, prev - 1))}
+                  className="btn btn-outline btn-sm"
+                  style={{ width: '32px', height: '32px', padding: 0 }}
+                  disabled={participantsCount <= 1}
+                >
+                  <Minus size={14} />
+                </button>
+                <strong style={{ minWidth: '24px', textAlign: 'center', fontSize: '1rem' }}>
+                  {participantsCount}
+                </strong>
+                <button
+                  type="button"
+                  onClick={() => setParticipantsCount((prev) => Math.min(maxCapacity, prev + 1))}
+                  className="btn btn-outline btn-sm"
+                  style={{ width: '32px', height: '32px', padding: 0 }}
+                  disabled={participantsCount >= maxCapacity}
+                >
+                  <Plus size={14} />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {/* Price Breakdown */}
+          <div
+            style={{
+              marginTop: 'var(--space-3)',
+              paddingTop: 'var(--space-3)',
+              borderTop: '1px solid var(--border-subtle)',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+            }}
+          >
+            <span style={{ fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+              {isSession ? `الإجمالي (${participantsCount} أفراد × ${formatCurrency(basePrice)}):` : `المبلغ المطلوب:`}
+            </span>
+            <strong style={{ fontSize: '1.25rem', color: 'var(--primary)', fontWeight: 800 }}>
+              {formatCurrency(totalPrice)}
+            </strong>
           </div>
         </div>
 
-        <div
-          style={{
-            borderTop: '1px solid var(--border-subtle)',
-            paddingTop: 'var(--space-3)',
-            marginTop: 'var(--space-2)',
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-          }}
-        >
-          <span style={{ fontWeight: 700, fontSize: '0.9375rem', color: 'var(--text-primary)' }}>
-            المبلغ الإجمالي:
-          </span>
-          <span style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--primary)', fontFamily: 'Inter, sans-serif' }}>
-            {formatCurrency(totalPrice)}
-          </span>
-        </div>
-      </div>
-
-      {/* Direct Booking Form */}
-      <form onSubmit={handleBookingSubmit} noValidate>
+        {/* Form Inputs */}
         <Input
-          label="الاسم بالكامل"
-          placeholder="مثال: أحمد محمد"
+          label="اسمك بالكامل *"
+          placeholder="اكتب اسمك الثلاثي"
           value={name}
           onChange={(e) => setName(e.target.value)}
           error={errors.name}
-          disabled={loading}
           required
         />
 
         <Input
-          label="رقم الهاتف"
-          placeholder="مثال: 01012345678"
-          type="tel"
+          label="رقم الموبايل للتأكيد *"
+          placeholder="010XXXXXXXX"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
           error={errors.phone}
-          disabled={loading}
+          dir="ltr"
           required
         />
 
         <Textarea
-          label="ملاحظات إضافية (اختياري)"
-          placeholder="أي طلبات أو ملاحظات تفضل إضافتها..."
+          label="ملاحظات زيادة (اختياري)"
+          placeholder="أي طلب خاص أو استفسار لإدارة الملعب..."
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          disabled={loading}
+          rows={2}
         />
 
+        {/* Cash payment notice */}
         <div
           style={{
-            background: 'var(--bg-surface-raised)',
-            padding: 'var(--space-3)',
-            borderRadius: 'var(--radius-sm)',
-            marginBottom: 'var(--space-4)',
-            border: '1px solid var(--border-subtle)',
-            fontSize: '0.8125rem',
-            color: 'var(--text-secondary)',
             display: 'flex',
             alignItems: 'center',
-            gap: 'var(--space-2)',
+            gap: '8px',
+            background: 'var(--sketch-active-bg)',
+            border: '1.5px solid var(--sketch-line)',
+            boxShadow: '1.5px 1.5px 0px var(--sketch-shadow)',
+            padding: 'var(--space-2) var(--space-3)',
+            borderRadius: '255px 10px 225px 10px / 10px 225px 10px 255px',
+            fontSize: '0.8125rem',
+            color: 'var(--primary)',
+            fontWeight: 700,
           }}
         >
-          <Info size={16} style={{ color: 'var(--primary)', flexShrink: 0 }} />
-          <span>يتم سداد الحساب في الملعب عند الحضور قبل بدء وقت المباراة.</span>
+          <Info size={16} style={{ flexShrink: 0 }} />
+          <span>هتدفع كاش في الملعب أول ما توصل، مفيش دفع إلكتروني مسبق.</span>
         </div>
 
-        <div className="flex justify-end gap-2">
+        {/* Action Buttons */}
+        <div style={{ display: 'flex', gap: 'var(--space-2)', justifyContent: 'flex-end', marginTop: 'var(--space-2)' }}>
           <Button variant="outline" type="button" onClick={onClose} disabled={loading}>
-            إلغاء
+            رجوع
           </Button>
-          <Button variant="primary" type="submit" loading={loading}>
-            {loading ? 'جاري التأكيد...' : `تأكيد الحجز (${formatCurrency(totalPrice)})`}
+          <Button variant="primary" type="submit" loading={loading} icon={CheckCircle}>
+            أكّد الحجز دلوقتي
           </Button>
         </div>
       </form>
     </Modal>
   );
 }
-

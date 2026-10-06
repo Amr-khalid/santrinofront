@@ -2,19 +2,21 @@
 
 import React, { useState } from 'react';
 import { formatCurrency, formatSlotRange12h, getTimePeriod } from '@/lib/utils';
-import { Check, Clock, AlertCircle } from 'lucide-react';
+import { Check, Clock, AlertCircle, Users } from 'lucide-react';
 import { Skeleton } from '@/components/ui/Loader';
 
 export default function TimeSlotGrid({
   slots = [],
   selectedSlots = [],
   selectedSlot = null,
+  facility = null,
   onSelectSlot,
   onSelectRange,
   onClearSelection,
   loading,
 }) {
   const [preferredDuration, setPreferredDuration] = useState(1); // 1 | 2 | 3 hours
+  const isSession = facility?.bookingType === 'session';
 
   // Normalize selected list
   const activeSelectedList = Array.isArray(selectedSlots) && selectedSlots.length > 0
@@ -59,13 +61,12 @@ export default function TimeSlotGrid({
   }
 
   const availableCount = slots.filter((s) => s.isAvailable).length;
-  const sortedSelected = [...activeSelectedList].sort((a, b) => a.startTime.localeCompare(b.startTime));
 
-  // Handler when clicking a slot with duration awareness
+  // Handler when clicking a slot
   const handleSlotClick = (clickedSlot) => {
     if (!clickedSlot.isAvailable) return;
 
-    if (preferredDuration > 1 && onSelectRange) {
+    if (!isSession && preferredDuration > 1 && onSelectRange) {
       const clickedIdx = slots.findIndex((s) => s.startTime === clickedSlot.startTime);
       if (clickedIdx !== -1) {
         const rangeSlots = [];
@@ -101,91 +102,88 @@ export default function TimeSlotGrid({
     return acc;
   }, {});
 
-  // Sort periods chronologically
-  const sortedPeriodKeys = Object.keys(groupedPeriods).sort(
-    (a, b) => {
-      const firstSlotA = groupedPeriods[a].slots[0]?.startTime || '00:00';
-      const firstSlotB = groupedPeriods[b].slots[0]?.startTime || '00:00';
-      return groupedPeriods[a].info.order - groupedPeriods[b].info.order || firstSlotA.localeCompare(firstSlotB);
-    }
-  );
+  const periodOrder = ['afternoon', 'evening', 'night', 'morning'];
+  const sortedPeriodKeys = periodOrder.filter((k) => groupedPeriods[k]);
 
   return (
-    <div>
-      {/* Top Header & Duration Selector */}
+    <div className="timeslot-section">
+      {/* Selection Control Bar */}
       <div
         className="flex justify-between items-center"
         style={{
-          marginBottom: 'var(--space-4)',
-          paddingBottom: 'var(--space-3)',
+          marginBottom: 'var(--space-3)',
+          paddingBottom: 'var(--space-2)',
           borderBottom: '1px solid var(--border-subtle)',
           flexWrap: 'wrap',
           gap: 'var(--space-2)',
         }}
       >
-        {/* Availability & Selection Summary */}
         <div className="flex items-center gap-2">
-          <span style={{ fontWeight: 600, fontSize: '0.875rem', color: 'var(--text-primary)' }}>
-            الساعات المتاحة ({availableCount})
+          <span style={{ fontSize: '0.875rem', fontWeight: 700, color: 'var(--text-primary)' }}>
+            {isSession ? 'جلسات اليوم المتاحة' : 'ساعات اليوم المتاحة'}
           </span>
-          {activeSelectedList.length > 0 && (
-            <span style={{ color: 'var(--primary)', fontWeight: 600, fontSize: '0.875rem' }}>
-              · تم تحديد {activeSelectedList.length === 1 ? 'ساعة واحدة' : activeSelectedList.length === 2 ? 'ساعتان' : `${activeSelectedList.length} ساعات`}
-            </span>
-          )}
+          <span className="badge badge-primary" style={{ fontSize: '0.75rem' }}>
+            {availableCount} {isSession ? 'جلسة متاحة' : 'ساعة متاحة'}
+          </span>
         </div>
 
-        {/* Duration Quick Selector */}
-        <div className="flex items-center gap-2">
-          <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-            المدة:
-          </span>
-          <div
-            style={{
-              background: 'var(--bg-surface-raised)',
-              padding: '2px',
-              borderRadius: 'var(--radius-sm)',
-              border: '1px solid var(--border-subtle)',
-              display: 'flex',
-              gap: '2px',
-            }}
-          >
-            {[1, 2, 3].map((dur) => (
-              <button
-                key={dur}
-                onClick={() => setPreferredDuration(dur)}
-                style={{
-                  padding: 'var(--space-1) var(--space-2)',
-                  fontSize: '0.75rem',
-                  fontWeight: 600,
-                  borderRadius: 'var(--radius-xs)',
-                  background: preferredDuration === dur ? 'var(--bg-surface)' : 'transparent',
-                  color: preferredDuration === dur ? 'var(--primary)' : 'var(--text-secondary)',
-                  border: preferredDuration === dur ? '1px solid var(--border-subtle)' : 'none',
-                  boxShadow: preferredDuration === dur ? 'var(--shadow-xs)' : 'none',
-                  cursor: 'pointer',
-                }}
-              >
-                {dur === 1 ? 'ساعة' : dur === 2 ? 'ساعتان' : `${dur} ساعات`}
-              </button>
-            ))}
-          </div>
-
-          {activeSelectedList.length > 0 && onClearSelection && (
-            <button
-              onClick={onClearSelection}
+        {/* Duration selector for exclusive courts */}
+        {!isSession && (
+          <div className="flex items-center gap-1">
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginLeft: 'var(--space-1)' }}>
+              مدة الحجز:
+            </span>
+            <div
               style={{
-                color: 'var(--danger)',
-                fontWeight: 600,
-                fontSize: '0.75rem',
-                cursor: 'pointer',
-                marginRight: 'var(--space-2)',
+                display: 'inline-flex',
+                background: 'var(--bg-surface-raised)',
+                padding: '2px',
+                borderRadius: 'var(--radius-sm)',
+                border: '1px solid var(--border-subtle)',
+                gap: '2px',
               }}
             >
-              إلغاء
-            </button>
-          )}
-        </div>
+              {[1, 2, 3].map((dur) => (
+                <button
+                  key={dur}
+                  type="button"
+                  onClick={() => setPreferredDuration(dur)}
+                  style={{
+                    padding: 'var(--space-1) var(--space-2)',
+                    fontSize: '0.75rem',
+                    fontWeight: 600,
+                    borderRadius: 'var(--radius-xs)',
+                    background: preferredDuration === dur ? 'var(--bg-surface)' : 'transparent',
+                    color: preferredDuration === dur ? 'var(--primary)' : 'var(--text-secondary)',
+                    border: preferredDuration === dur ? '1px solid var(--border-subtle)' : 'none',
+                    boxShadow: preferredDuration === dur ? 'var(--shadow-xs)' : 'none',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {dur === 1 ? 'ساعة' : dur === 2 ? 'ساعتان' : `${dur} ساعات`}
+                </button>
+              ))}
+            </div>
+
+            {activeSelectedList.length > 0 && onClearSelection && (
+              <button
+                type="button"
+                onClick={onClearSelection}
+                style={{
+                  color: 'var(--danger)',
+                  fontWeight: 600,
+                  fontSize: '0.75rem',
+                  cursor: 'pointer',
+                  marginRight: 'var(--space-2)',
+                  background: 'none',
+                  border: 'none',
+                }}
+              >
+                إلغاء
+              </button>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Clean Period Groups */}
@@ -200,21 +198,13 @@ export default function TimeSlotGrid({
               {/* Period Header */}
               <div className="period-header">
                 <div className="period-title-group">
-                  <span className="period-title">
-                    {info.label}
-                  </span>
-                  {info.timeSpan && (
-                    <span className="period-timespan-badge">
-                      {info.timeSpan}
-                    </span>
-                  )}
+                  <span className="period-title">{info.label}</span>
+                  {info.timeSpan && <span className="period-timespan-badge">{info.timeSpan}</span>}
                 </div>
 
-                <span
-                  className={`badge ${periodAvailableCount > 0 ? 'badge-neutral' : 'badge-danger'}`}
-                >
+                <span className={`badge ${periodAvailableCount > 0 ? 'badge-neutral' : 'badge-danger'}`}>
                   {periodAvailableCount > 0
-                    ? `${periodAvailableCount} ${periodAvailableCount === 1 ? 'ساعة متاحة' : periodAvailableCount === 2 ? 'ساعتان' : 'ساعات متاحة'}`
+                    ? `${periodAvailableCount} ${isSession ? 'جلسة' : periodAvailableCount === 1 ? 'ساعة' : 'ساعات'} متاحة`
                     : 'مكتمل الحجز'}
                 </span>
               </div>
@@ -226,6 +216,7 @@ export default function TimeSlotGrid({
                   const isSelected = selectedStartTimes.has(slot.startTime);
                   const timeRange12h = formatSlotRange12h(slot.startTime, slot.endTime);
                   const bookerName = slot.bookingInfo?.playerName;
+                  const slotIsSession = isSession || slot.bookingType === 'session';
 
                   return (
                     <div
@@ -236,15 +227,40 @@ export default function TimeSlotGrid({
                       {/* Top Row: Time Range */}
                       <div className="slot-card-header">
                         <span className="slot-time">
-                          <Clock size={13} style={{ color: isSelected ? 'var(--primary)' : 'var(--text-secondary)', flexShrink: 0 }} />
+                          <Clock
+                            size={13}
+                            style={{
+                              color: isSelected ? 'var(--primary)' : 'var(--text-secondary)',
+                              flexShrink: 0,
+                            }}
+                          />
                           {timeRange12h}
                         </span>
                       </div>
 
+                      {/* Capacity Status for Sessions */}
+                      {slotIsSession && (
+                        <div
+                          style={{
+                            fontSize: '0.75rem',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '4px',
+                            color: isBooked ? 'var(--danger)' : 'var(--text-secondary)',
+                            marginTop: '2px',
+                          }}
+                        >
+                          <Users size={12} />
+                          <span>
+                            {isBooked ? 'اكتمل العدد' : `متبقي ${slot.remainingSlots || 0} مقعد`}
+                          </span>
+                        </div>
+                      )}
+
                       {/* Bottom Row: Price and Status Tag */}
                       <div className="slot-card-footer">
                         <span className="slot-price">
-                          {isBooked ? '—' : formatCurrency(slot.price)}
+                          {isBooked && !slotIsSession ? '—' : formatCurrency(slot.price)}
                         </span>
 
                         {isSelected ? (
@@ -254,12 +270,10 @@ export default function TimeSlotGrid({
                           </span>
                         ) : isBooked ? (
                           <span className="slot-status-tag" style={{ color: 'var(--text-muted)' }}>
-                            {bookerName ? `محجوز (${bookerName.split(' ')[0]})` : 'محجوز'}
+                            {bookerName ? `محجوز (${bookerName.split(' ')[0]})` : 'مكتمل'}
                           </span>
                         ) : (
-                          <span className="slot-status-tag">
-                            متاح
-                          </span>
+                          <span className="slot-status-tag">متاح</span>
                         )}
                       </div>
                     </div>
@@ -273,4 +287,3 @@ export default function TimeSlotGrid({
     </div>
   );
 }
-

@@ -7,7 +7,7 @@ import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
 import Button from '@/components/ui/Button';
 import Badge from '@/components/ui/Badge';
-import { Sun, Moon } from 'lucide-react';
+import { Sun, Moon, Compass, CalendarCheck, LayoutDashboard, Shield, LogOut, PlusCircle } from 'lucide-react';
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -17,15 +17,14 @@ export default function Navbar() {
   return (
     <nav className="navbar">
       <div className="container nav-container">
-        {/* Brand Logo */}
-        <Link href="/" className="brand-logo" style={{ fontSize: '1.25rem', fontWeight: 800 }}>
-          <span>سنترينو</span>
-        </Link>
-
-        {/* Desktop Navigation Links */}
+        {/* Navigation Links (RTL Start) */}
         <div className="nav-links">
           <Link href="/" className={`nav-link ${pathname === '/' ? 'active' : ''}`}>
-            جدول المواعيد
+            الملاعب والأنشطة
+          </Link>
+
+          <Link href="/venues" className={`nav-link ${pathname.startsWith('/venues') ? 'active' : ''}`}>
+            الأندية والملاعب
           </Link>
 
           {user && !isOwner && (
@@ -35,13 +34,20 @@ export default function Navbar() {
           )}
 
           {isOwner && (
-            <Link href="/dashboard" className={`nav-link ${pathname.startsWith('/dashboard') && !pathname.startsWith('/dashboard/superadmin') ? 'active' : ''}`}>
+            <Link
+              href="/dashboard"
+              className={`nav-link ${pathname.startsWith('/dashboard') && !pathname.startsWith('/dashboard/superadmin') ? 'active' : ''}`}
+            >
               لوحة التحكم
             </Link>
           )}
 
           {isSuperAdmin && (
-            <Link href="/dashboard/superadmin" className={`nav-link ${pathname.startsWith('/dashboard/superadmin') ? 'active' : ''}`} style={{ color: 'var(--primary)', fontWeight: 600 }}>
+            <Link
+              href="/dashboard/superadmin"
+              className={`nav-link ${pathname.startsWith('/dashboard/superadmin') ? 'active' : ''}`}
+              style={{ color: 'var(--primary)', fontWeight: 600 }}
+            >
               إدارة المسؤولين
             </Link>
           )}
@@ -49,21 +55,20 @@ export default function Navbar() {
 
         {/* Actions / Theme Toggle / Auth */}
         <div className="flex items-center gap-2">
+          {/* Owner Registration Link if not logged in */}
+          {!user && (
+            <Link href="/auth/register?role=owner" className="btn btn-outline btn-sm sketch-btn hidden sm:inline-flex" style={{ fontSize: '0.8125rem' }}>
+              سجّل كصاحب ملعب
+            </Link>
+          )}
+
           {/* Theme Switcher Button */}
           <button
             type="button"
             onClick={toggleTheme}
-            className="btn btn-outline btn-sm"
+            className="btn btn-outline btn-sm theme-toggle-btn"
             title={theme === 'dark' ? 'التبديل إلى المظهر الفاتح (النهاري)' : 'التبديل إلى المظهر الداكن (الليلي)'}
             aria-label="تبديل مظهر الموقع"
-            style={{
-              minHeight: '36px',
-              padding: '0 var(--space-2)',
-              borderRadius: 'var(--radius-sm)',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
           >
             {mounted && theme === 'light' ? (
               <Moon size={17} style={{ color: 'var(--text-primary)' }} />
@@ -74,22 +79,14 @@ export default function Navbar() {
 
           {user ? (
             <div className="flex items-center gap-2">
-              <div
-                className="flex items-center gap-2"
-                style={{
-                  background: 'var(--bg-surface-raised)',
-                  padding: 'var(--space-1) var(--space-3)',
-                  borderRadius: 'var(--radius-sm)',
-                  border: '1px solid var(--border-subtle)',
-                }}
-              >
+              <div className="user-badge-box flex items-center gap-2">
                 <span style={{ fontSize: '0.875rem', fontWeight: 600, color: 'var(--text-primary)' }}>
                   {user.name?.split(' ')[0]}
                 </span>
                 {isSuperAdmin ? (
                   <Badge variant="danger">سوبر أدمن</Badge>
                 ) : isOwner ? (
-                  <Badge variant="warning">إدارة</Badge>
+                  <Badge variant="warning">صاحب ملعب</Badge>
                 ) : null}
               </div>
 
@@ -98,17 +95,23 @@ export default function Navbar() {
                 size="sm"
                 onClick={logout}
                 title="تسجيل الخروج"
+                className="sketch-btn"
+                style={{ minHeight: '36px' }}
               >
                 خروج
               </Button>
             </div>
           ) : (
             <div className="flex items-center gap-2">
-              <Link href="/auth/login" className="btn btn-outline btn-sm">
-                دخول
+              <Link href="/auth/login">
+                <Button variant="outline" size="sm" className="sketch-btn" style={{ minHeight: '36px' }}>
+                  دخول
+                </Button>
               </Link>
-              <Link href="/auth/register" className="btn btn-primary btn-sm">
-                حساب جديد
+              <Link href="/auth/register">
+                <Button variant="primary" size="sm" className="sketch-btn-primary" style={{ minHeight: '36px' }}>
+                  سجّل معانا
+                </Button>
               </Link>
             </div>
           )}
@@ -117,6 +120,3 @@ export default function Navbar() {
     </nav>
   );
 }
-
-
-

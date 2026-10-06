@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/context/AuthContext';
 import { useToast } from '@/context/ToastContext';
 import Card from '@/components/ui/Card';
 import Button from '@/components/ui/Button';
+import Loader from '@/components/ui/Loader';
 import {
   UserPlus,
   AlertCircle,
@@ -19,10 +20,14 @@ import {
   Phone,
   Lock,
   ShieldCheck,
+  Building2,
 } from 'lucide-react';
 
-export default function RegisterPage() {
+function RegisterForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialRole = searchParams.get('role') === 'owner' ? 'owner' : 'player';
+
   const { register } = useAuth();
   const { showToast } = useToast();
 
@@ -31,7 +36,7 @@ export default function RegisterPage() {
     phone: '',
     password: '',
     confirmPassword: '',
-    role: 'player',
+    role: initialRole,
   });
 
   const [errors, setErrors] = useState({});
@@ -265,6 +270,57 @@ export default function RegisterPage() {
           )}
 
           <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-3">
+            {/* Account Role Selector */}
+            <div>
+              <label className="form-label" style={{ marginBottom: '6px' }}>نوع الحساب</label>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: '1fr 1fr',
+                  gap: '8px',
+                  background: 'var(--bg-surface-raised)',
+                  padding: '4px',
+                  borderRadius: 'var(--radius-md)',
+                  border: '1px solid var(--border-subtle)',
+                }}
+              >
+                <button
+                  type="button"
+                  onClick={() => handleChange('role', 'player')}
+                  style={{
+                    padding: '8px 12px',
+                    borderRadius: 'var(--radius-sm)',
+                    border: 'none',
+                    background: form.role === 'player' ? 'var(--primary)' : 'transparent',
+                    color: form.role === 'player' ? '#fff' : 'var(--text-secondary)',
+                    fontWeight: 700,
+                    fontSize: '0.8125rem',
+                    cursor: 'pointer',
+                    transition: 'var(--transition-fast)',
+                  }}
+                >
+                  ⚽ لاعب / مستخدم
+                </button>
+                <button
+                  type="button"
+                  onClick={() => handleChange('role', 'owner')}
+                  style={{
+                    padding: '8px 12px',
+                    borderRadius: 'var(--radius-sm)',
+                    border: 'none',
+                    background: form.role === 'owner' ? 'var(--primary)' : 'transparent',
+                    color: form.role === 'owner' ? '#fff' : 'var(--text-secondary)',
+                    fontWeight: 700,
+                    fontSize: '0.8125rem',
+                    cursor: 'pointer',
+                    transition: 'var(--transition-fast)',
+                  }}
+                >
+                  🏟️ صاحب منشأة / نادي
+                </button>
+              </div>
+            </div>
+
             {/* Full Name */}
             <div>
               <label className="form-label required">الاسم بالكامل</label>
@@ -469,3 +525,12 @@ export default function RegisterPage() {
     </div>
   );
 }
+
+export default function RegisterPage() {
+  return (
+    <Suspense fallback={<Loader text="جاري تجهيز صفحة إنشاء الحساب..." />}>
+      <RegisterForm />
+    </Suspense>
+  );
+}
+

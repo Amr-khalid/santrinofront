@@ -1,47 +1,52 @@
 /* ==========================================================================
-   1. Buttons System (Standardized heights, touch targets >= 44px)
+   1. Buttons System (Sketched & Hand-Drawn "مرسوم" Aesthetic)
    ========================================================================== */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: var(--space-2);
-  font-family: inherit;
-  font-weight: 600;
+  font-family: 'Marhey', 'Readex Pro', sans-serif;
+  font-weight: 700;
   font-size: 0.9375rem;
-  border-radius: var(--radius-md);
-  border: 1px solid transparent;
+  border-radius: 255px 12px 225px 12px / 12px 225px 12px 255px;
+  border: 2px solid var(--sketch-line);
+  box-shadow: 3px 3px 0px var(--sketch-shadow);
   cursor: pointer;
   user-select: none;
   white-space: nowrap;
-  transition: var(--transition-fast);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
   text-decoration: none;
   min-height: 44px;
   padding: 0 var(--space-4);
   -webkit-tap-highlight-color: transparent;
 }
 
+.btn:hover:not(:disabled) {
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 4.5px 4.5px 0px var(--sketch-shadow);
+}
+
 .btn:active:not(:disabled) {
-  transform: scale(0.98);
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px var(--sketch-shadow);
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.55;
   cursor: not-allowed;
   transform: none !important;
+  box-shadow: 1px 1px 0px var(--sketch-shadow) !important;
 }
 
 /* Primary Button (Dominant CTA) */
 .btn-primary {
   background-color: var(--primary);
   color: #FFFFFF;
-  border-color: var(--primary);
-  box-shadow: var(--shadow-xs);
+  border-color: var(--sketch-line);
 }
 
 .btn-primary:hover:not(:disabled) {
   background-color: var(--primary-hover);
-  border-color: var(--primary-hover);
   color: #FFFFFF;
 }
 
@@ -53,12 +58,12 @@
 .btn-outline, .btn-secondary {
   background-color: var(--bg-surface);
   color: var(--text-primary);
-  border-color: var(--border-default);
+  border-color: var(--sketch-line);
 }
 
 .btn-outline:hover:not(:disabled), .btn-secondary:hover:not(:disabled) {
   background-color: var(--bg-surface-raised);
-  border-color: var(--border-strong);
+  border-color: var(--sketch-line);
   color: var(--text-primary);
 }
 
@@ -67,24 +72,27 @@
   background-color: transparent;
   color: var(--text-secondary);
   border-color: transparent;
+  box-shadow: none;
 }
 
 .btn-ghost:hover:not(:disabled) {
   background-color: var(--bg-surface-raised);
+  border: 2px dashed var(--sketch-line);
+  box-shadow: 2px 2px 0px var(--sketch-shadow);
   color: var(--text-primary);
 }
 
 /* Danger Button */
 .btn-danger {
-  background-color: var(--danger-light);
-  color: var(--danger);
-  border-color: var(--danger-border);
+  background-color: var(--danger);
+  color: #FFFFFF;
+  border-color: var(--sketch-line);
 }
 
 .btn-danger:hover:not(:disabled) {
-  background-color: var(--danger);
+  background-color: var(--danger-hover);
   color: #FFFFFF;
-  border-color: var(--danger);
+  border-color: var(--sketch-line);
 }
 
 /* Sizes */
@@ -92,7 +100,8 @@
   min-height: 36px;
   padding: 0 var(--space-3);
   font-size: 0.8125rem;
-  border-radius: var(--radius-sm);
+  border-radius: 255px 10px 225px 10px / 10px 225px 10px 255px;
+  box-shadow: 2px 2px 0px var(--sketch-shadow);
 }
 
 .btn-md {
@@ -105,21 +114,22 @@
   min-height: 50px;
   padding: 0 var(--space-6);
   font-size: 1rem;
-  border-radius: var(--radius-md);
+  border-radius: 255px 14px 225px 14px / 14px 225px 14px 255px;
+  box-shadow: 4px 4px 0px var(--sketch-shadow);
 }
 
 /* ==========================================================================
-   2. Card System (Consistent 12px radius, subtle border, quiet surface)
+   2. Card System (Sketched & Hand-Drawn "مرسوم" Aesthetic)
    ========================================================================== */
 .card {
   background: var(--bg-surface);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  border: 2px solid var(--sketch-line);
+  border-radius: 255px 16px 225px 16px / 16px 225px 16px 255px;
   padding: var(--space-5);
-  box-shadow: var(--shadow-md);
-  transition: var(--transition-fast);
+  box-shadow: 4px 4px 0px var(--sketch-shadow);
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, border-color 0.2s ease;
 }
 
 .card-interactive {
@@ -127,13 +137,18 @@
 }
 
 .card-interactive:hover {
-  border-color: var(--border-strong);
-  box-shadow: var(--shadow-lg);
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px var(--sketch-shadow);
+  border-color: var(--sketch-line);
+}
+
+.card-interactive:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0px var(--sketch-shadow);
 }
 
 .card-muted {
   background: var(--bg-surface-raised);
-  border-color: var(--border-subtle);
 }
 
 .card-padding-none { padding: 0 !important; }
@@ -142,7 +157,7 @@
 .card-padding-lg { padding: var(--space-6); }
 
 /* ==========================================================================
-   3. Form Inputs & Groups (44px height, clear labels & errors)
+   3. Form Inputs & Groups (Sketched & Hand-Drawn "مرسوم" Aesthetic)
    ========================================================================== */
 .input-group {
   display: flex;
@@ -156,7 +171,7 @@
 .form-label {
   display: block;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
   margin-bottom: var(--space-1);
 }
@@ -172,21 +187,24 @@
   width: 100%;
   min-height: 44px;
   background: var(--bg-surface);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-sm);
+  border: 2px solid var(--sketch-line);
+  border-radius: 255px 14px 225px 14px / 14px 225px 14px 255px;
+  box-shadow: 3px 3px 0px var(--sketch-shadow);
   padding: 0 var(--space-3);
   color: var(--text-primary);
   font-size: 0.9375rem;
   font-family: inherit;
-  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast);
+  font-weight: 600;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast), background var(--transition-fast), transform var(--transition-fast);
 }
 
 .input-field:focus,
 .input:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 3px var(--primary-focus);
+  box-shadow: 4px 4px 0px var(--primary);
   outline: none;
   background: var(--bg-surface-hover);
+  transform: translate(-1px, -1px);
 }
 
 .input-field:disabled,
@@ -195,6 +213,7 @@
   color: var(--text-disabled);
   cursor: not-allowed;
   opacity: 0.7;
+  box-shadow: 1px 1px 0px var(--sketch-shadow);
 }
 
 .input-field::placeholder,
@@ -241,7 +260,7 @@ option {
 .input-error,
 .input.input-error {
   border-color: var(--danger) !important;
-  box-shadow: 0 0 0 1px var(--danger) !important;
+  box-shadow: 3px 3px 0px var(--danger) !important;
 }
 
 .input-error-msg {
@@ -250,6 +269,7 @@ option {
   gap: var(--space-1);
   color: var(--danger);
   font-size: 0.8125rem;
+  font-weight: 600;
   margin-top: 2px;
 }
 
@@ -259,18 +279,19 @@ option {
   margin-top: 2px;
 }
 
-
 /* ==========================================================================
-   4. Status Badges & Pills (Clean 10% semantic colors)
+   4. Status Badges & Pills (Sketched & Hand-Drawn "مرسوم" Aesthetic)
    ========================================================================== */
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   font-size: 0.75rem;
-  font-weight: 600;
-  padding: 2px var(--space-2);
-  border-radius: var(--radius-full);
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 255px 8px 225px 8px / 8px 225px 8px 255px;
+  border: 1.5px solid var(--sketch-line);
+  box-shadow: 1.5px 1.5px 0px var(--sketch-shadow);
   line-height: 1.4;
   white-space: nowrap;
 }
@@ -312,21 +333,34 @@ option {
 }
 
 /* ==========================================================================
-   5. Navbar & Brand Header
+/* ==========================================================================
+   5. Navbar & Brand Header (Sketched & Hand-Drawn "مرسوم" Aesthetic)
    ========================================================================== */
 .navbar {
   position: sticky;
-  top: 0;
-  z-index: 40;
+  top: 14px;
+  z-index: 50;
+  margin: 12px auto;
+  max-width: 1220px;
+  width: calc(100% - 32px);
+  min-height: 58px;
   background: var(--bg-surface);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border-subtle);
-  height: 64px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 2px solid var(--sketch-line);
+  /* Organic hand-drawn curvature */
+  border-radius: 255px 18px 225px 22px / 20px 225px 20px 255px;
+  /* Crisp 2D ink shadow effect */
+  box-shadow: 4px 4px 0px var(--sketch-shadow);
   display: flex;
   align-items: center;
-  box-shadow: var(--shadow-sm);
-  transition: background var(--transition-base), border-color var(--transition-base);
+  padding: 6px 16px;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.navbar:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0px var(--sketch-shadow);
 }
 
 .nav-container {
@@ -334,57 +368,121 @@ option {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-}
-
-
-
-.brand-logo {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  text-decoration: none;
-}
-
-.brand-logo-icon {
-  width: 34px;
-  height: 34px;
-  background: var(--primary);
-  border-radius: var(--radius-sm);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #FFFFFF;
-  font-weight: 800;
-  font-size: 1rem;
+  gap: var(--space-3);
 }
 
 .nav-links {
   display: flex;
   align-items: center;
-  gap: var(--space-1);
+  gap: 8px;
 }
 
 .nav-link {
-  font-size: 0.875rem;
-  font-weight: 500;
+  font-family: 'Marhey', 'Readex Pro', sans-serif;
+  font-size: 0.9375rem;
+  font-weight: 700;
   color: var(--text-secondary);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
-  transition: var(--transition-fast);
+  padding: 7px 16px;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  border: 1.5px solid transparent;
+  text-decoration: none;
+  transition: all 0.18s ease;
 }
 
 .nav-link:hover {
   color: var(--text-primary);
   background: var(--bg-surface-raised);
+  border: 1.5px dashed var(--sketch-line);
+  transform: translateY(-1px);
 }
 
 .nav-link.active {
   color: var(--primary);
-  background: var(--primary-light);
-  font-weight: 600;
+  background: var(--sketch-active-bg);
+  border: 2px solid var(--sketch-line);
+  box-shadow: 2.5px 2.5px 0px var(--sketch-shadow);
+  font-weight: 700;
+}
+
+/* Sketched buttons & controls inside Navbar */
+.navbar .sketch-btn,
+.navbar .btn-outline {
+  border: 2px solid var(--sketch-line) !important;
+  box-shadow: 2.5px 2.5px 0px var(--sketch-shadow) !important;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px !important;
+  font-weight: 700 !important;
+  color: var(--text-primary) !important;
+  background: var(--bg-surface) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.navbar .sketch-btn:hover,
+.navbar .btn-outline:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3.5px 3.5px 0px var(--sketch-shadow) !important;
+  background: var(--bg-surface-raised) !important;
+}
+
+.navbar .sketch-btn:active,
+.navbar .btn-outline:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 0px 0px 0px var(--sketch-shadow) !important;
+}
+
+.navbar .sketch-btn-primary,
+.navbar .btn-primary {
+  background: var(--primary) !important;
+  color: #FFFFFF !important;
+  border: 2px solid var(--sketch-line) !important;
+  box-shadow: 2.5px 2.5px 0px var(--sketch-shadow) !important;
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px !important;
+  font-weight: 700 !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.navbar .sketch-btn-primary:hover,
+.navbar .btn-primary:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3.5px 3.5px 0px var(--sketch-shadow) !important;
+  background: var(--primary-hover) !important;
+}
+
+.navbar .sketch-btn-primary:active,
+.navbar .btn-primary:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 0px 0px 0px var(--sketch-shadow) !important;
+}
+
+.navbar .theme-toggle-btn {
+  border: 2px solid var(--sketch-line) !important;
+  box-shadow: 2.5px 2.5px 0px var(--sketch-shadow) !important;
+  border-radius: 52% 48% 55% 45% / 46% 54% 48% 52% !important;
+  min-height: 38px;
+  width: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  background: var(--bg-surface) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.navbar .theme-toggle-btn:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3.5px 3.5px 0px var(--sketch-shadow) !important;
+}
+
+.navbar .theme-toggle-btn:active {
+  transform: translate(2px, 2px) !important;
+  box-shadow: 0px 0px 0px var(--sketch-shadow) !important;
+}
+
+.navbar .user-badge-box {
+  background: var(--bg-surface-raised);
+  padding: 4px 14px;
+  border: 2px solid var(--sketch-line);
+  box-shadow: 2px 2px 0px var(--sketch-shadow);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
 }
 
 /* Mobile Bottom Navigation Bar (For quick thumb access on mobile) */
@@ -493,14 +591,15 @@ option {
 }
 
 /* ==========================================================================
-   7. Time Slot Grid & Natural Periods (Quiet, high-contrast, linear style)
+   7. Time Slot Grid & Natural Periods (Sketched & Hand-Drawn "مرسوم" Aesthetic)
    ========================================================================== */
 .period-container {
   background: var(--bg-surface-raised);
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
+  border: 2px solid var(--sketch-line);
+  border-radius: 255px 16px 225px 16px / 16px 225px 16px 255px;
   padding: var(--space-4);
   margin-bottom: var(--space-4);
+  box-shadow: 3.5px 3.5px 0px var(--sketch-shadow);
   transition: var(--transition-fast);
 }
 
@@ -510,7 +609,7 @@ option {
   align-items: center;
   margin-bottom: var(--space-3);
   padding-bottom: var(--space-2);
-  border-bottom: 1px solid var(--border-subtle);
+  border-bottom: 2px dashed var(--sketch-line);
   flex-wrap: wrap;
   gap: var(--space-2);
 }
@@ -529,26 +628,28 @@ option {
 
 .period-timespan-badge {
   font-size: 0.75rem;
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-secondary);
   background: var(--bg-surface);
-  padding: 2px var(--space-2);
-  border-radius: var(--radius-full);
-  border: 1px solid var(--border-subtle);
+  padding: 3px var(--space-2);
+  border-radius: 255px 8px 225px 8px / 8px 225px 8px 255px;
+  border: 1.5px solid var(--sketch-line);
+  box-shadow: 1px 1px 0px var(--sketch-shadow);
 }
 
-/* Modern Clean Slot Card */
+/* Modern Sketched Slot Card */
 .slot-card {
   background: var(--bg-surface);
-  border: 1px solid var(--border-default);
-  border-radius: var(--radius-md);
+  border: 2px solid var(--sketch-line);
+  border-radius: 255px 12px 225px 12px / 12px 225px 12px 255px;
   padding: var(--space-3) var(--space-3);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   gap: var(--space-2);
   cursor: pointer;
-  transition: var(--transition-fast);
+  box-shadow: 2.5px 2.5px 0px var(--sketch-shadow);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
   user-select: none;
   min-height: 76px;
   position: relative;
@@ -556,22 +657,24 @@ option {
 }
 
 .slot-card:hover:not(.slot-booked):not(.slot-selected) {
-  border-color: var(--primary);
+  border-color: var(--sketch-line);
   background: var(--bg-surface-hover);
-  box-shadow: 0 4px 14px var(--primary-focus);
-  transform: translateY(-1px);
+  box-shadow: 4px 4px 0px var(--sketch-shadow);
+  transform: translate(-1.5px, -1.5px);
 }
 
 .slot-card.slot-selected {
-  background: var(--primary-light) !important;
-  border: 1.5px solid var(--primary) !important;
-  box-shadow: 0 0 16px var(--primary-focus);
+  background: var(--sketch-active-bg) !important;
+  border: 2.5px solid var(--primary) !important;
+  box-shadow: 3.5px 3.5px 0px var(--primary) !important;
+  transform: translate(-1px, -1px);
 }
 
 .slot-card.slot-booked {
   background: var(--bg-muted) !important;
-  border-color: var(--border-subtle) !important;
-  opacity: 0.6;
+  border-color: var(--border-default) !important;
+  box-shadow: 1px 1px 0px var(--sketch-shadow) !important;
+  opacity: 0.55;
   cursor: not-allowed;
 }
 
@@ -602,7 +705,7 @@ option {
   justify-content: space-between;
   width: 100%;
   padding-top: 6px;
-  border-top: 1px solid var(--border-subtle);
+  border-top: 1.5px dashed var(--sketch-line);
 }
 
 .slot-price {
@@ -618,9 +721,10 @@ option {
 
 .slot-status-tag {
   font-size: 0.6875rem;
-  font-weight: 600;
+  font-weight: 700;
   padding: 1px 6px;
-  border-radius: var(--radius-xs);
+  border-radius: 255px 6px 225px 6px / 6px 225px 6px 255px;
+  border: 1px solid var(--sketch-line);
   background: var(--bg-surface-raised);
   color: var(--text-secondary);
 }
@@ -628,6 +732,7 @@ option {
 .slot-card.slot-selected .slot-status-tag {
   background: var(--primary);
   color: #FFFFFF;
+  border-color: var(--sketch-line);
 }
 
 /* ==========================================================================
@@ -643,25 +748,25 @@ option {
   background: var(--bg-surface);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--primary-border);
-  border-radius: var(--radius-lg);
+  border: 2px solid var(--sketch-line);
+  border-radius: 255px 18px 225px 18px / 18px 225px 18px 255px;
   padding: var(--space-3) var(--space-4);
   z-index: 60;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  box-shadow: var(--shadow-floating);
+  box-shadow: 4px 4px 0px var(--sketch-shadow);
   animation: fadeIn var(--transition-fast) ease-out;
   gap: var(--space-3);
 }
 
 /* ==========================================================================
-   9. Modal & Bottom Sheet (Responsive Dialog on Desktop, Sheet on Mobile)
+   9. Modal & Bottom Sheet (Sketched & Hand-Drawn "مرسوم" Aesthetic)
    ========================================================================== */
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
+  background: rgba(0, 0, 0, 0.6);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
   display: flex;
@@ -675,13 +780,13 @@ option {
   background: var(--bg-surface);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-default);
+  border-radius: 255px 22px 225px 22px / 22px 225px 22px 255px;
+  border: 2.5px solid var(--sketch-line);
   width: 100%;
   max-height: 90vh;
   overflow-y: auto;
   padding: var(--space-6);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 6px 6px 0px var(--sketch-shadow);
   position: relative;
 }
 
@@ -733,13 +838,41 @@ option {
    11. Responsive Adjustments (Mobile-First < 768px)
    ========================================================================== */
 @media (max-width: 768px) {
-  .hero-grid {
-    grid-template-columns: 1fr;
-    gap: var(--space-6);
+  .navbar {
+    top: 8px;
+    margin: 8px auto;
+    width: calc(100% - 16px);
+    padding: 6px 10px;
+    border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    box-shadow: 3px 3px 0px var(--sketch-shadow);
+  }
+
+  .nav-container {
+    gap: 8px;
+    flex-wrap: nowrap;
   }
 
   .nav-links {
+    display: flex;
+    gap: 4px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .nav-links::-webkit-scrollbar {
     display: none;
+  }
+
+  .nav-link {
+    padding: 5px 10px;
+    font-size: 0.8125rem;
+    white-space: nowrap;
+  }
+
+  .hero-grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-6);
   }
 
   .floating-action-bar {
@@ -832,31 +965,45 @@ option {
 
 .calendar-day-btn {
   min-height: 44px;
-  border-radius: var(--radius-sm);
+  border-radius: 255px 8px 225px 8px / 8px 225px 8px 255px;
+  border: 1.5px solid var(--sketch-line);
+  box-shadow: 2px 2px 0px var(--sketch-shadow);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: 0.9375rem;
   font-family: 'Inter', sans-serif;
-  transition: var(--transition-fast);
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.calendar-day-btn:hover:not(:disabled) {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0px var(--sketch-shadow);
+}
+
+.calendar-day-btn.active {
+  background: var(--primary) !important;
+  color: #FFFFFF !important;
+  border-color: var(--sketch-line) !important;
+  box-shadow: 3px 3px 0px var(--sketch-shadow) !important;
 }
 
 @media (max-width: 480px) {
   .calendar-matrix {
-    gap: 2px;
+    gap: 4px;
   }
 
   .calendar-day-btn {
-    min-height: 34px;
+    min-height: 36px;
     font-size: 0.8125rem;
-    border-radius: var(--radius-xs);
+    border-radius: 255px 6px 225px 6px / 6px 225px 6px 255px;
   }
 }
 
 /* Homepage responsive wrapper */
 .homepage-wrapper {
-  padding-top: var(--space-6);
+  padding-top: var(--space-4);
   padding-bottom: var(--space-10);
   width: 100%;
 }
@@ -866,6 +1013,61 @@ option {
     padding-top: var(--space-2);
     padding-bottom: var(--space-6);
   }
+}
+
+/* ==========================================================================
+   12. Sketched ("مرسوم") Global Utilities
+   ========================================================================== */
+.sketch-box {
+  border: 2px solid var(--sketch-line) !important;
+  border-radius: 255px 16px 225px 16px / 16px 225px 16px 255px !important;
+  box-shadow: 4px 4px 0px var(--sketch-shadow) !important;
+}
+
+.sketch-box-interactive {
+  border: 2px solid var(--sketch-line) !important;
+  border-radius: 255px 16px 225px 16px / 16px 225px 16px 255px !important;
+  box-shadow: 4px 4px 0px var(--sketch-shadow) !important;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease !important;
+}
+
+.sketch-box-interactive:hover {
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 6px 6px 0px var(--sketch-shadow) !important;
+}
+
+.sketch-pill {
+  border: 2px solid var(--sketch-line) !important;
+  border-radius: 255px 25px 225px 25px / 25px 225px 25px 255px !important;
+  box-shadow: 2.5px 2.5px 0px var(--sketch-shadow) !important;
+  transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+}
+
+.sketch-pill:hover {
+  transform: translate(-1px, -1px) !important;
+  box-shadow: 3.5px 3.5px 0px var(--sketch-shadow) !important;
+}
+
+.sketch-line-dashed {
+  border-top: 2px dashed var(--sketch-line) !important;
+}
+
+.sketch-highlight {
+  position: relative;
+  display: inline-block;
+}
+
+.sketch-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  height: 8px;
+  background: rgba(16, 185, 129, 0.25);
+  z-index: -1;
+  border-radius: 255px 10px 225px 10px / 10px 225px 10px 255px;
+  transform: rotate(-0.5deg);
 }
 
 

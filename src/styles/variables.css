@@ -29,6 +29,11 @@ body[data-theme="light"] {
   --border-strong: rgba(15, 118, 110, 0.45);
   --border-focus: #0F766E;
 
+  /* Sketched Hand-Drawn ("مرسوم") Tokens */
+  --sketch-line: #0F172A;
+  --sketch-shadow: #0F172A;
+  --sketch-active-bg: rgba(15, 118, 110, 0.12);
+
   /* Text Hierarchy */
   --text-primary: #0F172A;
   --text-secondary: #334155;
@@ -93,6 +98,11 @@ body[data-theme="dark"] {
   --border-default: rgba(255, 255, 255, 0.16);
   --border-strong: rgba(16, 185, 129, 0.4);
   --border-focus: #10B981;
+
+  /* Sketched Hand-Drawn ("مرسوم") Tokens */
+  --sketch-line: #F1F5F9;
+  --sketch-shadow: rgba(0, 0, 0, 0.85);
+  --sketch-active-bg: rgba(16, 185, 129, 0.18);
 
   /* Text Hierarchy */
   --text-primary: #FFFFFF;

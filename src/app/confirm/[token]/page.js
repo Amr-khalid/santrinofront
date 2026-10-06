@@ -218,8 +218,11 @@ export default function ConfirmBookingPage() {
             </div>
 
             <div className="flex justify-between items-center">
-              <span style={{ color: 'var(--text-secondary)' }}>الملعب:</span>
-              <span style={{ fontWeight: 600 }}>{mainBooking?.field?.name || 'سنترينو'}</span>
+              <span style={{ color: 'var(--text-secondary)' }}>المنشأة والملعب:</span>
+              <span style={{ fontWeight: 600 }}>
+                {mainBooking?.venue?.name ? `${mainBooking.venue.name} — ` : ''}
+                {mainBooking?.facility?.name || mainBooking?.field?.name || 'سنترينو'}
+              </span>
             </div>
 
             <div className="flex justify-between items-center">
