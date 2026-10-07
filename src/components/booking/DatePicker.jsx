@@ -203,8 +203,8 @@ export default function DatePicker({ selectedDate, onSelectDate }) {
                 key={idx}
                 style={{
                   fontSize: '0.75rem',
-                  fontWeight: 600,
-                  color: 'var(--text-secondary)',
+                  fontWeight: 700,
+                  color: 'var(--text-primary)',
                   padding: 'var(--space-1) 0',
                 }}
               >
@@ -245,11 +245,11 @@ export default function DatePicker({ selectedDate, onSelectDate }) {
                     color: dItem.isSelected
                       ? '#FFFFFF'
                       : dItem.isPast
-                      ? 'var(--text-muted)'
+                      ? 'var(--text-disabled)'
                       : 'var(--text-primary)',
                     fontWeight: dItem.isSelected || dItem.isToday ? 700 : 500,
                     cursor: dItem.isPast ? 'not-allowed' : 'pointer',
-                    opacity: dItem.isPast ? 0.35 : 1,
+                    opacity: dItem.isPast ? 0.45 : 1,
                     boxShadow: dItem.isSelected
                       ? '0 0 14px rgba(16, 185, 129, 0.4)'
                       : 'none',
@@ -340,8 +340,8 @@ export default function DatePicker({ selectedDate, onSelectDate }) {
                 <span
                   style={{
                     fontSize: '0.6875rem',
-                    fontWeight: 500,
-                    color: isSelected ? 'rgba(255, 255, 255, 0.8)' : 'var(--text-muted)',
+                    fontWeight: 600,
+                    color: isSelected ? 'rgba(255, 255, 255, 0.85)' : 'var(--text-secondary)',
                   }}
                 >
                   {day.monthName}

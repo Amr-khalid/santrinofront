@@ -130,7 +130,7 @@ export default function TimeSlotGrid({
         {/* Duration selector for exclusive courts */}
         {!isSession && (
           <div className="flex items-center gap-1">
-            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginLeft: 'var(--space-1)' }}>
+            <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginLeft: 'var(--space-1)', fontWeight: 700 }}>
               مدة الحجز:
             </span>
             <div
@@ -269,7 +269,7 @@ export default function TimeSlotGrid({
                             محدد
                           </span>
                         ) : isBooked ? (
-                          <span className="slot-status-tag" style={{ color: 'var(--text-muted)' }}>
+                          <span className="slot-status-tag" style={{ color: 'var(--text-primary)', fontWeight: 700 }}>
                             {bookerName ? `محجوز (${bookerName.split(' ')[0]})` : 'مكتمل'}
                           </span>
                         ) : (

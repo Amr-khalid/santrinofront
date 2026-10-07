@@ -189,8 +189,9 @@ export default function VenueDetailPage() {
             display: 'inline-flex',
             alignItems: 'center',
             gap: '6px',
-            color: 'var(--text-secondary)',
+            color: 'var(--text-primary)',
             fontSize: '0.875rem',
+            fontWeight: 700,
             textDecoration: 'none',
           }}
         >
@@ -227,7 +228,7 @@ export default function VenueDetailPage() {
           >
             <Star size={16} fill="#F59E0B" />
             <span>{venue.rating || 4.9}</span>
-            <span style={{ color: '#ccc', fontSize: '0.8125rem' }}>({venue.reviewCount || 45} تقييم)</span>
+            <span style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: '0.8125rem' }}>({venue.reviewCount || 45} تقييم)</span>
           </div>
         </div>
 
@@ -285,7 +286,8 @@ export default function VenueDetailPage() {
                     padding: '4px 10px',
                     borderRadius: '255px 10px 225px 10px / 10px 225px 10px 255px',
                     fontSize: '0.75rem',
-                    color: 'var(--text-secondary)',
+                    color: 'var(--text-primary)',
+                    fontWeight: 600,
                   }}
                 >
                   ✓ {item}
@@ -296,14 +298,55 @@ export default function VenueDetailPage() {
         </div>
       </Card>
 
-      {/* Facilities Selection Section */}
-      <div style={{ marginBottom: 'var(--space-6)' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
-            اختار الصالة أو الملعب
-          </h2>
-          <span style={{ fontSize: '0.8125rem', color: 'var(--text-muted)' }}>
-            ({facilities.length} ملاعب وصالات متاحة)
+      {/* Facilities Selection Section - Step 1 */}
+      <Card padding="lg" style={{ marginBottom: 'var(--space-6)' }}>
+        <div
+          style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            marginBottom: 'var(--space-4)',
+            flexWrap: 'wrap',
+            gap: 'var(--space-3)',
+          }}
+        >
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+            <span
+              style={{
+                background: 'var(--primary)',
+                color: '#ffffff',
+                padding: '4px 10px',
+                borderRadius: '8px',
+                fontSize: '0.8125rem',
+                fontWeight: 800,
+                letterSpacing: '0.5px',
+                flexShrink: 0,
+              }}
+            >
+              الخطوة 1
+            </span>
+            <div>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)', margin: 0 }}>
+                اختار الصالة أو الملعب
+              </h2>
+              <p style={{ margin: '2px 0 0', fontSize: '0.8125rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+                حدد الصالة أو الملعب اللي حابب تلعب فيه لمشاهدة المواعيد المتاحة والأسعار
+              </p>
+            </div>
+          </div>
+          <span
+            style={{
+              background: 'var(--bg-main)',
+              border: '1.5px solid var(--sketch-line)',
+              color: 'var(--text-primary)',
+              padding: '4px 12px',
+              borderRadius: '999px',
+              fontSize: '0.8125rem',
+              fontWeight: 700,
+              boxShadow: '1px 1px 0px var(--sketch-shadow)',
+            }}
+          >
+            {facilities.length} ملاعب وصالات متاحة
           </span>
         </div>
 
@@ -314,15 +357,17 @@ export default function VenueDetailPage() {
               type="button"
               onClick={() => setSelectedActivity('all')}
               style={{
-                padding: '6px 14px',
+                padding: '7px 16px',
                 borderRadius: '999px',
-                border: selectedActivity === 'all' ? '1px solid var(--primary)' : '1px solid var(--border-subtle)',
-                background: selectedActivity === 'all' ? 'var(--primary)' : 'var(--bg-surface)',
-                color: selectedActivity === 'all' ? '#fff' : 'var(--text-primary)',
+                border: selectedActivity === 'all' ? '2px solid var(--primary)' : '1.5px solid var(--sketch-line)',
+                background: selectedActivity === 'all' ? 'var(--primary)' : 'var(--bg-surface-raised)',
+                color: selectedActivity === 'all' ? '#ffffff' : 'var(--text-primary)',
                 fontSize: '0.8125rem',
-                fontWeight: 600,
+                fontWeight: 700,
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
+                boxShadow: selectedActivity === 'all' ? '2px 2px 0px rgba(0,0,0,0.18)' : '1px 1px 0px var(--sketch-shadow)',
+                transition: 'all 0.15s ease',
               }}
             >
               الكل ({facilities.length})
@@ -338,18 +383,20 @@ export default function VenueDetailPage() {
                   type="button"
                   onClick={() => setSelectedActivity(actId)}
                   style={{
-                    padding: '6px 14px',
+                    padding: '7px 16px',
                     borderRadius: '999px',
-                    border: isSelected ? '1px solid var(--primary)' : '1px solid var(--border-subtle)',
-                    background: isSelected ? 'var(--primary)' : 'var(--bg-surface)',
-                    color: isSelected ? '#fff' : 'var(--text-primary)',
+                    border: isSelected ? '2px solid var(--primary)' : '1.5px solid var(--sketch-line)',
+                    background: isSelected ? 'var(--primary)' : 'var(--bg-surface-raised)',
+                    color: isSelected ? '#ffffff' : 'var(--text-primary)',
                     fontSize: '0.8125rem',
-                    fontWeight: 600,
+                    fontWeight: 700,
                     cursor: 'pointer',
                     display: 'flex',
                     alignItems: 'center',
                     gap: '6px',
                     whiteSpace: 'nowrap',
+                    boxShadow: isSelected ? '2px 2px 0px rgba(0,0,0,0.18)' : '1px 1px 0px var(--sketch-shadow)',
+                    transition: 'all 0.15s ease',
                   }}
                 >
                   <span>{meta.icon}</span>
@@ -361,7 +408,7 @@ export default function VenueDetailPage() {
         )}
 
         {/* Facilities Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 'var(--space-3)' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(250px, 1fr))', gap: 'var(--space-3)' }}>
           {filteredFacilities.map((fac) => {
             const isSelected = selectedFacility?._id === fac._id || selectedFacility?.id === fac.id;
             const meta = getActivityMeta(fac.activityType);
@@ -372,47 +419,119 @@ export default function VenueDetailPage() {
                 key={fac._id || fac.id}
                 onClick={() => setSelectedFacility(fac)}
                 style={{
-                  background: isSelected ? 'var(--sketch-active-bg)' : 'var(--bg-surface)',
-                  border: isSelected ? '2px solid var(--sketch-line)' : '1.5px solid var(--sketch-line)',
-                  borderRadius: '255px 15px 225px 15px / 15px 225px 15px 255px',
-                  boxShadow: isSelected ? '3px 3px 0px var(--primary)' : '2px 2px 0px var(--sketch-shadow)',
+                  background: isSelected ? 'var(--bg-surface)' : 'var(--bg-surface-raised)',
+                  border: isSelected ? '2.5px solid var(--primary)' : '1.5px solid var(--sketch-line)',
+                  borderRadius: '16px',
+                  boxShadow: isSelected
+                    ? '0 0 0 2px rgba(15, 118, 110, 0.2), 4px 4px 0px var(--primary)'
+                    : '2px 2px 0px var(--sketch-shadow)',
                   padding: 'var(--space-4)',
                   cursor: 'pointer',
                   transition: 'all 0.15s ease',
-                  transform: isSelected ? 'translate(-1px, -1px)' : 'none',
+                  transform: isSelected ? 'translate(-2px, -2px)' : 'none',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  justifyContent: 'space-between',
+                  position: 'relative',
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 'var(--space-2)' }}>
-                  <span style={{ fontSize: '1.5rem' }}>{meta.icon}</span>
-                  <Badge variant={isSelected ? 'primary' : 'neutral'}>
-                    {isSession ? 'حجز أفراد' : 'حجز الملعب بالكامل'}
-                  </Badge>
+                <div>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-3)' }}>
+                    <div
+                      style={{
+                        width: '38px',
+                        height: '38px',
+                        borderRadius: '50%',
+                        background: isSelected ? 'rgba(15, 118, 110, 0.12)' : 'var(--bg-main)',
+                        border: isSelected ? '1.5px solid var(--primary)' : '1px solid var(--sketch-line)',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        fontSize: '1.25rem',
+                      }}
+                    >
+                      {meta.icon}
+                    </div>
+                    <Badge variant={isSelected ? 'primary' : 'neutral'}>
+                      {isSession ? 'حجز أفراد' : 'حجز الملعب بالكامل'}
+                    </Badge>
+                  </div>
+
+                  <h4 style={{ margin: '0 0 6px', fontSize: '1.0625rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                    {fac.name}
+                  </h4>
+
+                  <p style={{ margin: '0 0 var(--space-3)', fontSize: '0.8125rem', color: 'var(--text-secondary)', fontWeight: 600, lineHeight: 1.5 }}>
+                    {fac.subType ? `النوع: ${fac.subType} • ` : ''}
+                    {isSession ? `سعة الجلسة: ${fac.capacity} أفراد` : `مدة الحجز: ${fac.slotDurationMinutes || 60} دقيقة`}
+                  </p>
                 </div>
 
-                <h4 style={{ margin: '0 0 4px', fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>
-                  {fac.name}
-                </h4>
+                <div>
+                  <div
+                    style={{
+                      display: 'flex',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      borderTop: '1px solid var(--border-subtle)',
+                      paddingTop: 'var(--space-2)',
+                      marginBottom: 'var(--space-2)',
+                    }}
+                  >
+                    <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)', fontWeight: 700 }}>
+                      {isSession ? 'سعر الفرد:' : 'سعر الساعة:'}
+                    </span>
+                    <strong style={{ color: 'var(--primary-text)', fontSize: '1rem', fontWeight: 800 }}>
+                      {formatCurrency(fac.defaultDayPrice || fac.defaultHourlyPrice || 200)}
+                    </strong>
+                  </div>
 
-                <p style={{ margin: '0 0 var(--space-3)', fontSize: '0.75rem', color: 'var(--text-secondary)', lineHeight: 1.4 }}>
-                  {fac.subType ? `النوع: ${fac.subType} • ` : ''}
-                  {isSession ? `سعة الجلسة: ${fac.capacity} أفراد` : `مدة الحجز: ${fac.slotDurationMinutes || 60} دقيقة`}
-                </p>
-
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '1px solid var(--border-subtle)', paddingTop: 'var(--space-2)' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
-                    {isSession ? 'سعر الفرد:' : 'سعر الساعة:'}
-                  </span>
-                  <strong style={{ color: 'var(--primary)', fontSize: '0.9375rem' }}>
-                    {formatCurrency(fac.defaultDayPrice || fac.defaultHourlyPrice || 200)}
-                  </strong>
+                  {/* Indicator / CTA */}
+                  {isSelected ? (
+                    <div
+                      style={{
+                        padding: '6px 10px',
+                        borderRadius: '8px',
+                        background: 'var(--primary)',
+                        color: '#ffffff',
+                        fontSize: '0.8125rem',
+                        fontWeight: 700,
+                        textAlign: 'center',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        gap: '6px',
+                        boxShadow: '1px 1px 0px rgba(0,0,0,0.15)',
+                      }}
+                    >
+                      <span>✓</span>
+                      <span>الصالة المحددة حالياً</span>
+                    </div>
+                  ) : (
+                    <div
+                      style={{
+                        padding: '6px 10px',
+                        borderRadius: '8px',
+                        background: 'var(--bg-main)',
+                        color: 'var(--text-primary)',
+                        fontSize: '0.8125rem',
+                        fontWeight: 700,
+                        textAlign: 'center',
+                        border: '1.5px solid var(--sketch-line)',
+                        boxShadow: '1px 1px 0px var(--sketch-shadow)',
+                      }}
+                    >
+                      اضغط لاختيار هذه الصالة
+                    </div>
+                  )}
                 </div>
               </div>
             );
           })}
         </div>
-      </div>
+      </Card>
 
-      {/* Live Availability & Booking Section for Selected Facility */}
+      {/* Live Availability & Booking Section for Selected Facility - Step 2 */}
       {selectedFacility && (
         <Card padding="lg" style={{ marginBottom: 'var(--space-6)' }}>
           <div
@@ -427,25 +546,42 @@ export default function VenueDetailPage() {
               gap: 'var(--space-2)',
             }}
           >
-            <div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ fontSize: '1.25rem' }}>{getActivityMeta(selectedFacility.activityType).icon}</span>
-                <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)' }}>
-                  مواعيد: {selectedFacility.name}
-                </h3>
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '10px' }}>
+              <span
+                style={{
+                  background: 'var(--secondary)',
+                  color: '#ffffff',
+                  padding: '4px 10px',
+                  borderRadius: '8px',
+                  fontSize: '0.8125rem',
+                  fontWeight: 800,
+                  letterSpacing: '0.5px',
+                  marginTop: '2px',
+                  flexShrink: 0,
+                }}
+              >
+                الخطوة 2
+              </span>
+              <div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  <span style={{ fontSize: '1.25rem' }}>{getActivityMeta(selectedFacility.activityType).icon}</span>
+                  <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: 800, color: 'var(--text-primary)' }}>
+                    مواعيد: {selectedFacility.name}
+                  </h3>
+                </div>
+                <p style={{ margin: '4px 0 0', fontSize: '0.8125rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
+                  {selectedFacility.bookingType === 'session'
+                    ? 'اختار ميعاد الجلسة اللي يناسبك وحدد عدد الأفراد اللي جايين معاك'
+                    : 'دوس على الساعات اللي تناسبك عشان تحجزها في ثواني'}
+                </p>
               </div>
-              <p style={{ margin: '4px 0 0', fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
-                {selectedFacility.bookingType === 'session'
-                  ? 'اختار ميعاد الجلسة اللي يناسبك وحدد عدد الأفراد اللي جايين معاك'
-                  : 'دوس على الساعات اللي تناسبك عشان تحجزها في ثواني'}
-              </p>
             </div>
 
             <div style={{ textAlign: 'left' }}>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 700, display: 'block' }}>
                 {selectedFacility.bookingType === 'session' ? 'سعر الجلسة للفرد' : 'سعر الساعة'}
               </span>
-              <strong style={{ fontSize: '1.125rem', color: 'var(--primary)', fontWeight: 800 }}>
+              <strong style={{ fontSize: '1.125rem', color: 'var(--primary-text)', fontWeight: 800 }}>
                 {formatCurrency(selectedFacility.defaultDayPrice || selectedFacility.defaultHourlyPrice)}
               </strong>
             </div>
@@ -485,7 +621,7 @@ export default function VenueDetailPage() {
               }}
             >
               <div>
-                <span style={{ fontSize: '0.8125rem', color: 'var(--text-secondary)' }}>
+                <span style={{ fontSize: '0.8125rem', color: 'var(--text-primary)', fontWeight: 700 }}>
                   المواعيد اللي اخترتها ({selectedSlots.length} فترات):
                 </span>
                 <div style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.9375rem' }}>
@@ -495,7 +631,7 @@ export default function VenueDetailPage() {
 
               <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)' }}>
                 <div style={{ textAlign: 'left' }}>
-                  <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>الإجمالي</span>
+                  <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600, display: 'block' }}>الإجمالي</span>
                   <strong style={{ fontSize: '1.25rem', color: 'var(--primary)', fontWeight: 800 }}>
                     {formatCurrency(totalSelectedPrice)}
                   </strong>

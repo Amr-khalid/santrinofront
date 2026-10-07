@@ -127,7 +127,7 @@ export default function BookingTable({ bookings = [], onUpdateStatus, loading })
                     </div>
                     <div>
                       <div style={{ fontWeight: 600, fontSize: '0.875rem' }}>{booking.playerName}</div>
-                      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', direction: 'ltr', textAlign: 'right', fontFamily: 'Inter, sans-serif' }}>
+                      <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600, direction: 'ltr', textAlign: 'right', fontFamily: 'Inter, sans-serif' }}>
                         {booking.playerPhone}
                       </div>
                     </div>
@@ -142,7 +142,7 @@ export default function BookingTable({ bookings = [], onUpdateStatus, loading })
                       <div style={{ fontWeight: 600, fontSize: '0.8125rem', color: 'var(--text-primary)' }}>
                         {facName}
                       </div>
-                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600 }}>
                         {actMeta.name} {isSession && booking.participantsCount ? `(${booking.participantsCount} أفراد)` : ''}
                       </span>
                     </div>
@@ -182,7 +182,7 @@ export default function BookingTable({ bookings = [], onUpdateStatus, loading })
                 <td>
                   <span
                     className="flex items-center gap-1"
-                    style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: 500 }}
+                    style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600 }}
                   >
                     {isManual ? <PenTool size={12} /> : <Globe size={12} />}
                     {isManual ? 'يدوي' : 'أونلاين'}

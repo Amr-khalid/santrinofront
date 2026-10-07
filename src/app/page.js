@@ -145,7 +145,7 @@ export default function HomePage() {
           >
             {/* Activity Selector */}
             <div style={{ padding: '0 var(--space-2)', textAlign: 'right' }}>
-              <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', display: 'block', marginBottom: '2px' }}>
+              <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)', display: 'block', marginBottom: '2px' }}>
                 بتلعب إيه؟
               </label>
               <select
@@ -173,7 +173,7 @@ export default function HomePage() {
 
             {/* City Selector */}
             <div style={{ padding: '0 var(--space-2)', borderRight: '1px solid var(--border-subtle)', textAlign: 'right' }}>
-              <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', display: 'block', marginBottom: '2px' }}>
+              <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)', display: 'block', marginBottom: '2px' }}>
                 فين مكانك؟
               </label>
               <select
@@ -200,7 +200,7 @@ export default function HomePage() {
 
             {/* Date Input */}
             <div style={{ padding: '0 var(--space-2)', borderRight: '1px solid var(--border-subtle)', textAlign: 'right' }}>
-              <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-muted)', display: 'block', marginBottom: '2px' }}>
+              <label style={{ fontSize: '0.75rem', fontWeight: 700, color: 'var(--text-secondary)', display: 'block', marginBottom: '2px' }}>
                 عايز تحجز إمتى؟
               </label>
               <input
@@ -297,7 +297,7 @@ export default function HomePage() {
                     style={{
                       fontSize: '0.8125rem',
                       fontWeight: isSelected ? 800 : 700,
-                      color: isSelected ? 'var(--primary)' : 'var(--text-primary)',
+                      color: isSelected ? 'var(--primary-text, var(--primary))' : 'var(--text-primary)',
                       lineHeight: 1.2,
                     }}
                   >
@@ -392,7 +392,7 @@ export default function HomePage() {
                       >
                         <Star size={13} fill="#F59E0B" />
                         <span>{venue.rating || 4.9}</span>
-                        <span style={{ color: '#ccc', fontSize: '0.75rem' }}>({venue.reviewCount || 36})</span>
+                        <span style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: '0.75rem' }}>({venue.reviewCount || 36})</span>
                       </div>
 
                       <div
@@ -463,7 +463,7 @@ export default function HomePage() {
                         }}
                       >
                         <div>
-                          <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>
+                          <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'block', fontWeight: 600 }}>
                             من أول
                           </span>
                           <strong style={{ fontSize: '1.0625rem', color: 'var(--primary)', fontWeight: 800 }}>
@@ -545,7 +545,7 @@ export default function HomePage() {
                       }}
                     >
                       <div>
-                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>
+                        <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'block', fontWeight: 600 }}>
                           {isSession ? 'سعر الجلسة' : 'سعر الساعة'}
                         </span>
                         <strong style={{ color: 'var(--primary)', fontSize: '0.9375rem', fontWeight: 800 }}>

@@ -295,7 +295,7 @@ function VenuesContent() {
                   >
                     <Star size={13} fill="#F59E0B" />
                     <span>{venue.rating || 4.8}</span>
-                    <span style={{ color: '#ccc', fontSize: '0.75rem' }}>({venue.reviewCount || 24})</span>
+                    <span style={{ color: 'rgba(255, 255, 255, 0.85)', fontSize: '0.75rem' }}>({venue.reviewCount || 24})</span>
                   </div>
 
                   <div
@@ -383,7 +383,7 @@ function VenuesContent() {
                     }}
                   >
                     <div>
-                      <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block' }}>
+                      <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'block', fontWeight: 600 }}>
                         الأسعار بتبدأ من
                       </span>
                       <strong style={{ fontSize: '1rem', color: 'var(--primary)', fontWeight: 800 }}>

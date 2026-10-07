@@ -237,7 +237,7 @@ export default function PricingModal({ isOpen, onClose, rule, onSuccess }) {
               <button type="button" onClick={selectAllDays} style={{ color: 'var(--primary)', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>
                 كل الأيام
               </button>
-              <button type="button" onClick={selectWeekendOnly} style={{ color: 'var(--warning)', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>
+              <button type="button" onClick={selectWeekendOnly} style={{ color: 'var(--warning-text, var(--warning))', fontWeight: 700, background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>
                 الويك إند
               </button>
               <button type="button" onClick={selectWeekdaysOnly} style={{ color: 'var(--text-secondary)', fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer', textDecoration: 'underline' }}>

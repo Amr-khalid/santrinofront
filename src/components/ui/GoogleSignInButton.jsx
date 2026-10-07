@@ -169,7 +169,7 @@ export default function GoogleSignInButton({ onSuccess, text = 'المتابعة
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>أحمد محمود</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>ahmed.mahmoud@gmail.com</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>ahmed.mahmoud@gmail.com</div>
               </div>
             </button>
 
@@ -205,12 +205,12 @@ export default function GoogleSignInButton({ onSuccess, text = 'المتابعة
               </div>
               <div style={{ flex: 1 }}>
                 <div style={{ fontWeight: 700, fontSize: '0.9rem' }}>كابتن طارق علي</div>
-                <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>tarek.ali@gmail.com</div>
+                <div style={{ fontSize: '0.78rem', color: 'var(--text-secondary)' }}>tarek.ali@gmail.com</div>
               </div>
             </button>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', color: 'var(--text-muted)', fontSize: '0.8rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem', color: 'var(--text-secondary)', fontWeight: 600, fontSize: '0.8rem' }}>
             <div style={{ flex: 1, height: '1px', background: 'var(--glass-border)' }} />
             <span>أو أدخل إيميلك الشخصي</span>
             <div style={{ flex: 1, height: '1px', background: 'var(--glass-border)' }} />

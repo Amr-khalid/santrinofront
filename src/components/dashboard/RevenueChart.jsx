@@ -16,7 +16,7 @@ export default function RevenueChart({ data = [] }) {
           <TrendingUp size={18} style={{ color: 'var(--primary)' }} />
           <h3 style={{ fontSize: '1rem', fontWeight: 700, color: 'var(--text-primary)' }}>إيرادات آخر 7 أيام</h3>
         </div>
-        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>محدث لحظياً</span>
+        <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', fontWeight: 600 }}>محدث لحظياً</span>
       </div>
 
       <div className="chart-bars">

@@ -85,7 +85,7 @@ export default function DigitalTicketModal({ isOpen, onClose, booking }) {
                   fontFamily: 'monospace',
                   fontSize: '0.8125rem',
                   fontWeight: 700,
-                  color: 'var(--text-muted)',
+                  color: 'var(--text-secondary)',
                   marginTop: '4px',
                 }}
               >
@@ -97,19 +97,19 @@ export default function DigitalTicketModal({ isOpen, onClose, booking }) {
           {/* Player & Booking Details */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 'var(--space-3)', fontSize: '0.875rem' }}>
             <div style={{ background: 'var(--bg-surface-raised)', padding: 'var(--space-3)', borderRadius: '255px 8px 225px 8px / 8px 225px 8px 255px', border: '1.5px solid var(--sketch-line)', boxShadow: '1.5px 1.5px 0px var(--sketch-shadow)' }}>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', display: 'block', fontWeight: 600 }}>اسم اللاعب</span>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', display: 'block', fontWeight: 700 }}>اسم اللاعب</span>
               <strong style={{ color: 'var(--text-primary)' }}>{booking.playerName}</strong>
             </div>
 
             <div style={{ background: 'var(--bg-surface-raised)', padding: 'var(--space-3)', borderRadius: '255px 8px 225px 8px / 8px 225px 8px 255px', border: '1.5px solid var(--sketch-line)', boxShadow: '1.5px 1.5px 0px var(--sketch-shadow)' }}>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', display: 'block', fontWeight: 600 }}>رقم الموبايل</span>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', display: 'block', fontWeight: 700 }}>رقم الموبايل</span>
               <span dir="ltr" style={{ fontWeight: 700, color: 'var(--text-primary)' }}>
                 {booking.playerPhone}
               </span>
             </div>
 
             <div style={{ background: 'var(--bg-surface-raised)', padding: 'var(--space-3)', borderRadius: '255px 8px 225px 8px / 8px 225px 8px 255px', border: '1.5px solid var(--sketch-line)', boxShadow: '1.5px 1.5px 0px var(--sketch-shadow)' }}>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', display: 'block', fontWeight: 600 }}>يوم الحجز</span>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', display: 'block', fontWeight: 700 }}>يوم الحجز</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--text-primary)', fontWeight: 700 }}>
                 <Calendar size={14} style={{ color: 'var(--primary)' }} />
                 <span>{booking.dateString ? formatDateArabic(booking.dateString) : 'النهارده'}</span>
@@ -117,7 +117,7 @@ export default function DigitalTicketModal({ isOpen, onClose, booking }) {
             </div>
 
             <div style={{ background: 'var(--bg-surface-raised)', padding: 'var(--space-3)', borderRadius: '255px 8px 225px 8px / 8px 225px 8px 255px', border: '1.5px solid var(--sketch-line)', boxShadow: '1.5px 1.5px 0px var(--sketch-shadow)' }}>
-              <span style={{ color: 'var(--text-muted)', fontSize: '0.75rem', display: 'block', fontWeight: 600 }}>الميعاد والتوقيت</span>
+              <span style={{ color: 'var(--text-secondary)', fontSize: '0.75rem', display: 'block', fontWeight: 700 }}>الميعاد والتوقيت</span>
               <div style={{ display: 'flex', alignItems: 'center', gap: '4px', color: 'var(--text-primary)', fontWeight: 700 }}>
                 <Clock size={14} style={{ color: 'var(--primary)' }} />
                 <span>{formatSlotRange12h(booking.startTime, booking.endTime)}</span>
@@ -164,12 +164,12 @@ export default function DigitalTicketModal({ isOpen, onClose, booking }) {
             }}
           >
             <div>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', fontWeight: 600 }}>طريقة الدفع</span>
-              <strong style={{ color: 'var(--primary)', fontSize: '0.875rem' }}>💵 كاش في الملعب لما تروح</strong>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'block', fontWeight: 700 }}>طريقة الدفع</span>
+              <strong style={{ color: 'var(--primary-text, var(--primary))', fontSize: '0.875rem' }}>💵 كاش في الملعب لما تروح</strong>
             </div>
             <div style={{ textAlign: 'left' }}>
-              <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', display: 'block', fontWeight: 600 }}>المبلغ المطلوب</span>
-              <strong style={{ fontSize: '1.25rem', color: 'var(--primary)', fontWeight: 800 }}>
+              <span style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', display: 'block', fontWeight: 700 }}>المبلغ المطلوب</span>
+              <strong style={{ fontSize: '1.25rem', color: 'var(--primary-text, var(--primary))', fontWeight: 800 }}>
                 {formatCurrency(booking.price)}
               </strong>
             </div>

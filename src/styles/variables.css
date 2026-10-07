@@ -34,32 +34,43 @@ body[data-theme="light"] {
   --sketch-shadow: #0F172A;
   --sketch-active-bg: rgba(15, 118, 110, 0.12);
 
-  /* Text Hierarchy */
+  /* Text Hierarchy (High Contrast Executive WCAG AAA compliant) */
   --text-primary: #0F172A;
-  --text-secondary: #334155;
-  --text-muted: #64748B;
-  --text-disabled: #94A3B8;
+  --text-secondary: #1E293B;
+  --text-muted: #475569;
+  --text-disabled: #64748B;
   --text-inverse: #FFFFFF;
 
-  /* Semantic Colors */
-  --success: #16A34A;
-  --success-hover: #15803D;
-  --success-light: rgba(22, 163, 74, 0.12);
-  --success-border: rgba(22, 163, 74, 0.28);
+  /* Text Semantic Tokens for Badges, Tags & Alerts */
+  --primary-text: #0D5E58;
+  --success-text: #166534;
+  --warning-text: #92400E;
+  --danger-text: #991B1B;
+  --info-text: #1E40AF;
 
-  --warning: #D97706;
-  --warning-hover: #B45309;
-  --warning-light: rgba(217, 119, 6, 0.12);
-  --warning-border: rgba(217, 119, 6, 0.28);
+  /* Accent & Glass Border Tokens */
+  --accent: #B45309;
+  --glass-border: rgba(15, 23, 42, 0.12);
+
+  /* Semantic Colors */
+  --success: #15803D;
+  --success-hover: #166534;
+  --success-light: rgba(22, 163, 74, 0.14);
+  --success-border: rgba(21, 128, 61, 0.35);
+
+  --warning: #B45309;
+  --warning-hover: #92400E;
+  --warning-light: rgba(217, 119, 6, 0.14);
+  --warning-border: rgba(180, 83, 9, 0.35);
 
   --danger: #DC2626;
   --danger-hover: #B91C1C;
   --danger-light: rgba(220, 38, 38, 0.12);
-  --danger-border: rgba(220, 38, 38, 0.28);
+  --danger-border: rgba(220, 38, 38, 0.35);
 
   --info: #2563EB;
   --info-light: rgba(37, 99, 235, 0.12);
-  --info-border: rgba(37, 99, 235, 0.28);
+  --info-border: rgba(37, 99, 235, 0.35);
 
   /* Shadows */
   --shadow-xs: 0 1px 3px rgba(15, 23, 42, 0.08);
@@ -110,6 +121,17 @@ body[data-theme="dark"] {
   --text-muted: #94A3B8;
   --text-disabled: #475569;
   --text-inverse: #0F172A;
+
+  /* Text Semantic Tokens for Badges, Tags & Alerts */
+  --primary-text: #34D399;
+  --success-text: #4ADE80;
+  --warning-text: #FBBF24;
+  --danger-text: #F87171;
+  --info-text: #60A5FA;
+
+  /* Accent & Glass Border Tokens */
+  --accent: #F59E0B;
+  --glass-border: rgba(255, 255, 255, 0.12);
 
   /* Semantic Colors */
   --success: #22C55E;

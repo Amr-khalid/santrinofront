@@ -46,8 +46,8 @@ export default function Footer() {
                     style={{
                       fontSize: '0.8125rem',
                       display: 'block',
-                      color: 'var(--primary)',
-                      fontWeight: 600,
+                      color: 'var(--primary-text, var(--primary))',
+                      fontWeight: 700,
                       marginTop: '2px',
                     }}
                   >
@@ -169,7 +169,8 @@ export default function Footer() {
             gap: 'var(--space-3)',
             paddingTop: 'var(--space-4)',
             fontSize: '0.8125rem',
-            color: 'var(--text-muted)',
+            color: 'var(--text-secondary)',
+            fontWeight: 500,
           }}
         >
           <div>

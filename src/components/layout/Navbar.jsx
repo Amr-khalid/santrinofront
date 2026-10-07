@@ -46,7 +46,7 @@ export default function Navbar() {
             <Link
               href="/dashboard/superadmin"
               className={`nav-link ${pathname.startsWith('/dashboard/superadmin') ? 'active' : ''}`}
-              style={{ color: 'var(--primary)', fontWeight: 600 }}
+              style={{ color: 'var(--primary-text, var(--primary))', fontWeight: 700 }}
             >
               إدارة المسؤولين
             </Link>
